@@ -8,15 +8,13 @@ AI-powered Slack community management bot with a built-in Next.js admin panel. U
 
 ## Features
 
-- **Community Manager AI** — Bot with a community manager persona that routes questions, welcomes members, surfaces unanswered threads, and flags tricky issues to a community lead
-- **Channel-Aware Routing** — Configurable channel map so the bot knows your workspace layout and where to send people
-- **Durable Workflows** — Every LLM call and tool execution is a checkpoint with automatic retries via [Vercel Workflow](https://vercel.com/docs/workflow)
-- **Web Search** — Built-in web search via OpenAI's native search tool (or Perplexity via AI Gateway if your team allows it)
-- **AI Gateway** — Model switching and fallbacks through the Vercel AI Gateway
-- **Sandbox Execution** — Optional bash/bash_batch tools via Savoir SDK for running code in a sandboxed environment
-- **Native Slack UI** — Shows typing indicator while processing, replies in threads
-- **Admin Panel** — Dashboard with activity feed, stats, and full conversation history; Slack OAuth via Better Auth (only workspace members can sign in). New activities glow and are badged with "New" since your last visit
-- **Lead Flagging** — Bot can escalate tricky issues to a community lead via Slack DM
+- **Community manager AI** — Routes questions, welcomes members, surfaces unanswered threads, and flags issues to a lead. Powered by [AI SDK](https://ai-sdk.dev)
+- **Channel-aware routing** — Configurable channel map so the bot knows your workspace layout and where to send people
+- **Durable workflows** — Every LLM call and tool execution is a checkpoint with automatic retries via [Vercel Workflow](https://vercel.com/docs/workflow)
+- **Web search** — Built-in search via OpenAI's native search tool or Perplexity via [AI Gateway](https://vercel.com/docs/ai-gateway)
+- **Sandbox execution** — Optional `bash`/`bash_batch` tools via [Savoir SDK](https://github.com/vercel-labs/knowledge-agent-template) for running code in a sandboxed environment
+- **Native Slack UI** — Typing indicators, threaded replies, and DMs. Powered by [Chat SDK](https://chat-sdk.dev)
+- **Admin panel** — Dashboard with activity feed, stats, and conversation history. Slack OAuth via [Better Auth](https://www.better-auth.com)
 
 ## Deploy
 
