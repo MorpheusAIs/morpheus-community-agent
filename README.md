@@ -11,7 +11,7 @@ Open source AI-powered Slack community management bot with a built-in Next.js ad
 - **Community manager AI** — Routes questions, welcomes members, surfaces unanswered threads, and flags issues to a lead. Powered by [AI SDK](https://ai-sdk.dev)
 - **Channel-aware routing** — Configurable channel map so the bot knows your workspace layout and where to send people
 - **Durable workflows** — Every LLM call and tool execution is a checkpoint with automatic retries via [Vercel Workflow](https://vercel.com/docs/workflow)
-- **Web search** — Built-in search via OpenAI's native search tool or Perplexity via [AI Gateway](https://vercel.com/docs/ai-gateway)
+- **Web search** — Built-in search via OpenAI's native search tool, with model switching and fallbacks through [AI Gateway](https://vercel.com/docs/ai-gateway)
 - **Sandbox execution** — Optional `bash`/`bash_batch` tools via [Savoir SDK](https://github.com/vercel-labs/knowledge-agent-template) for running code in a sandboxed environment
 - **Native Slack UI** — Typing indicators, threaded replies, and DMs. Powered by [Chat SDK](https://chat-sdk.dev)
 - **Admin panel** — Dashboard with activity feed, stats, and conversation history. Slack OAuth via [Better Auth](https://www.better-auth.com)
