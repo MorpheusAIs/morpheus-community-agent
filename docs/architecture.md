@@ -22,7 +22,7 @@ Tools (`suggest_channel`, `unanswered`, `bash`, `bash_batch`, `web_search`, `fla
 
 - Server-rendered dashboard built with shadcn/ui, Geist font, light/dark theme
 - `cacheComponents` and React Compiler enabled — pages are non-async, maximizing the static shell
-- **Live streaming**: client components poll Redis for active streams every 3 seconds. The overview page shows how many conversations the bot is handling, the activity page shows live cards per conversation, and the conversation detail page shows a "Bot is responding..." indicator. When streams end, `startTransition` batches the cleanup with `router.refresh()` so stats and action lists update seamlessly via ViewTransition
+- **Live streaming**: client components poll Redis for active streams every 3 seconds. New conversations get a standalone streaming card; follow-up messages in existing threads highlight the existing activity card with a green ring instead. The overview page shows how many conversations the bot is handling, and the conversation detail page shows a "Bot is responding..." indicator. When streams end, `startTransition` batches the cleanup with `router.refresh()` so stats and action lists update seamlessly via ViewTransition
 - Bot actions and full conversations logged to Upstash Redis (30-day TTL)
 - Slack OAuth via Better Auth — only workspace members can sign in
 - Falls back to mock data when Redis is not configured — works out of the box
@@ -52,8 +52,10 @@ Tools (`suggest_channel`, `unanswered`, `bash`, `bash_batch`, `web_search`, `fla
 | `lib/savoir.ts`                     | Lightweight HTTP client for the Savoir sandbox API (`bash`, `bash_batch`)                                                                        |
 | `lib/store.ts`                      | Upstash Redis store — writes/reads bot actions, stats, and conversations (indexed by action ID with sorted-set fallback)                         |
 | `lib/logger.ts`                     | Structured logger — outputs to console (visible in Vercel dashboard)                                                                             |
-| `data/actions/stream.ts`            | Server Actions for polling active streams (`fetchActiveStreams`, `fetchStream`)                                                                   |
-| `components/ActiveStreams.tsx`       | Live streaming cards on the activity page — polls every 3s, refreshes on completion                                                              |
+| `data/actions/stream.ts`            | Server Actions for polling active streams — annotates each with `isFollowUp`                                                                     |
+| `components/ActiveStreamsContext.tsx` | React context sharing active threadKeys between streaming and activity card components                                                            |
+| `components/ActiveStreams.tsx`       | Live streaming cards for new conversations — follow-ups highlight existing cards instead                                                         |
+| `components/ActivityCardGlow.tsx`   | Thin client wrapper that applies a green ring to activity cards with active streams                                                               |
 | `components/LiveStreamIndicator.tsx` | "Bot is responding..." indicator inside conversation detail pages                                                                                 |
 | `components/DashboardLive.tsx`      | Active conversation count banner on the overview page — refreshes stats on completion                                                            |
 

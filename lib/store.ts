@@ -315,6 +315,18 @@ export async function getActiveStreams(): Promise<StreamEntry[]> {
   }
 }
 
+export async function hasActionForThread(threadKey: string): Promise<boolean> {
+  const client = getRedis();
+  if (!client) return false;
+
+  try {
+    const actionId = await client.get<string>(`${THREAD_ACTION_PREFIX}${threadKey}`);
+    return actionId !== null;
+  } catch {
+    return false;
+  }
+}
+
 export async function getThreadKeyForAction(actionId: string): Promise<string | null> {
   const client = getRedis();
   if (!client) return null;

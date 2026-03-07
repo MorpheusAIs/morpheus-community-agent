@@ -13,6 +13,8 @@ import {
 import Link from 'next/link';
 import { Header } from '@/components/Header';
 import { ActiveStreams } from '@/components/ActiveStreams';
+import { ActiveStreamsProvider } from '@/components/ActiveStreamsContext';
+import { ActivityCardGlow } from '@/components/ActivityCardGlow';
 import { FormattedTime } from '@/components/FormattedTime';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
@@ -43,10 +45,12 @@ export default function ActivityPage() {
     <>
       <Header title="Activity" description="Recent bot actions across your community" />
       <div className="flex-1 space-y-4 p-6">
-        <ActiveStreams />
-        <Suspense fallback={<ActivityListSkeleton />}>
-          <ActivityList />
-        </Suspense>
+        <ActiveStreamsProvider>
+          <ActiveStreams />
+          <Suspense fallback={<ActivityListSkeleton />}>
+            <ActivityList />
+          </Suspense>
+        </ActiveStreamsProvider>
       </div>
     </>
   );
@@ -93,6 +97,7 @@ async function ActivityList() {
 
         return (
           <ViewTransition key={action.threadKey ?? action.id}>
+            <ActivityCardGlow threadKey={action.threadKey}>
             <Card className={isNew ? 'animate-new-glow' : ''}>
               <CardContent className="flex items-start gap-3 py-3 sm:gap-4 sm:py-4">
                 <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-muted sm:h-9 sm:w-9">
@@ -151,6 +156,7 @@ async function ActivityList() {
                 </div>
               </CardContent>
             </Card>
+            </ActivityCardGlow>
           </ViewTransition>
         );
       })}
