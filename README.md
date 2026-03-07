@@ -45,6 +45,7 @@ This template is designed to work alongside the [Knowledge Agent Template](https
 
 - [Full setup guide](docs/setup.md) — Slack app, env vars, storage, OAuth, channels, deploy
 - [Architecture](docs/architecture.md) — How the bot works, key files, workflow constraints
+- [Admin panel](docs/admin-panel.md) — Dashboard pages, live streaming, filters, Next.js patterns
 - [Testing](docs/testing.md) — Test without Slack, simulate actions, mock data
 
 ## Built With
