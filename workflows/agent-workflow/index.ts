@@ -130,7 +130,25 @@ export async function workflowAgent(input: AgentInput): Promise<AgentResult> {
     const toolsWithOwnLogging = ['suggest_channel', 'unanswered', 'flag_to_lead'];
     const alreadyLogged = toolCalls.some((tc: any) => toolsWithOwnLogging.includes(tc.toolName));
 
-    if (!alreadyLogged) {
+    const routingPattern = /\b(?:post|report|ask|go|head)\b.*\b#(\w+)\b/i;
+    const routingMatch = !alreadyLogged && routingPattern.test(responseText);
+
+    if (routingMatch) {
+      const channelName = await stepResolveChannelName(input.slack.channelId);
+      const match = responseText.match(/#(\w+)/);
+      const suggestedChannel = match ? `#${match[1]}` : channelName;
+
+      await stepLogAction(
+        {
+          type: 'routed',
+          channel: channelName,
+          description: `Suggested routing question to ${suggestedChannel}`,
+          metadata: {},
+        },
+        [],
+        `${input.slack.channelId}:${input.slack.threadTs}`,
+      );
+    } else if (!alreadyLogged) {
       const channelName = await stepResolveChannelName(input.slack.channelId);
 
       const isDM = input.slack.channelId.startsWith('D');

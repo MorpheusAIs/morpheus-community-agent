@@ -289,12 +289,15 @@ async function executeFlagToLead({
 
 export const durableTools: Record<string, any> = {
   suggest_channel: {
-    description: `Find the best channel for a question or topic. Use this when someone posts a question that might belong in a different channel. Returns the suggested channel and a list of all available channels.
+    description: `REQUIRED tool for any channel routing question. You MUST call this tool whenever someone asks where to post, which channel to use, or where to go for something. Do NOT answer routing questions with plain text — always call this tool first so the action is tracked.
 
-Examples:
-  "how do I fix this error" → #help
-  "the login page is broken" → #bugs
-  "hi I just joined" → #introductions`,
+Returns the suggested channel and a list of all available channels.
+
+Examples of questions that REQUIRE this tool:
+  "where do I report a bug" → call with topic "bug report"
+  "how do I fix this error" → call with topic "error help"
+  "where should I post this" → call with topic from their message
+  "which channel for introductions" → call with topic "introductions"`,
     inputSchema: suggestChannelInputSchema,
     execute: executeSuggestChannel,
   },

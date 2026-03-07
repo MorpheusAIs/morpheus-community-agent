@@ -49,6 +49,7 @@ export function ActiveStreams() {
         <Radio className="h-3.5 w-3.5 animate-pulse text-green-500" />
         Live
       </div>
+      <ViewTransition>
       <Card className="border-green-500/20 bg-green-500/5">
         <CardContent className="flex items-start gap-3 py-3 sm:gap-4 sm:py-4">
           <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-green-500/10 sm:h-9 sm:w-9">
@@ -71,6 +72,7 @@ export function ActiveStreams() {
           </Badge>
         </CardContent>
       </Card>
+      </ViewTransition>
     </div>
   );
 }
