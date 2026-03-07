@@ -14,8 +14,8 @@ Open source AI-powered Slack community management bot with a built-in Next.js ad
 - **Web search** — Claude's native web search and fetch tools, scoped to your community's domains via `SEARCH_DOMAINS`. Model switching and fallbacks through [AI Gateway](https://vercel.com/docs/ai-gateway)
 - **Sandbox execution** — Optional `bash`/`bash_batch` tools for running commands in a sandboxed environment via the [Knowledge Agent Template](https://github.com/vercel-labs/knowledge-agent-template) API
 - **Native Slack UI** — Typing indicators, threaded replies, and DMs. Powered by [Chat SDK](https://chat-sdk.dev)
-- **Live dashboard** — Real-time streaming indicators show active conversations as they happen, with stats and weekly trends that update automatically when the bot finishes responding
-- **Admin panel** — Dashboard with activity feed, type filters, text search, inline conversation previews, pagination, full conversation history, analytics charts, settings page with channel overview, and data-layer auth guards. Color-coded action types across all views. Slack OAuth via [Better Auth](https://www.better-auth.com)
+- **Admin panel** — Live dashboard with real-time streaming indicators, activity feed, type filters, text search, inline conversation previews, analytics charts, and settings page with channel overview
+- **Auth** — Slack OAuth via [Better Auth](https://www.better-auth.com) restricts the admin panel to workspace members. Data-layer auth guards on every query and server action
 
 ## Quick Start
 
