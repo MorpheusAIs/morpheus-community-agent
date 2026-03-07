@@ -83,7 +83,7 @@ export function ActiveStreams() {
                 : 'shrink-0 text-muted-foreground/50'
             }
           >
-            {isActive ? 'Streaming' : 'Idle'}
+            {isActive ? 'Active' : 'Idle'}
           </Badge>
         </CardContent>
       </Card>
