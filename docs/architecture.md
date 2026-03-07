@@ -101,9 +101,7 @@ Tools (`suggest_channel`, `unanswered`, `bash`, `bash_batch`, `web_search`, `fla
 
 Server-rendered dashboard with live streaming, activity feed, and conversation history. Slack OAuth via Better Auth restricts access to workspace members. Falls back to mock data when Redis is not configured. See [Admin panel](admin-panel.md) for Next.js implementation details.
 
-## Key Files
-
-**Customize these:**
+## Customize
 
 | File                                | Purpose                                                                                           |
 | ----------------------------------- | ------------------------------------------------------------------------------------------------- |
@@ -112,19 +110,5 @@ Server-rendered dashboard with live streaming, activity feed, and conversation h
 | `lib/welcome.ts`                    | Welcome message sent when members join                                                            |
 | `lib/auth.ts`                       | Better Auth config — Slack OAuth for admin panel                                                  |
 | `workflows/agent-workflow/tools.ts` | Agent tools (`suggest_channel`, `unanswered`, `bash`, `bash_batch`, `web_search`, `flag_to_lead`) |
-
-**How the bot works:**
-
-| File                                | Role                                                                                                                                             |
-| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `app/api/slack/route.ts`            | Slack webhook entry point — routes events to Chat SDK, handles `member_joined_channel` for welcome messages                                      |
-| `lib/chat.ts`                       | Chat SDK setup — receives mentions, manages threads (format: `slack:CHANNEL_ID:THREAD_TS`), fetches history, starts the workflow fire-and-forget |
-| `workflows/agent-workflow/index.ts` | Durable workflow — runs DurableAgent, posts response to Slack, logs the action with conversation                                                 |
-| `workflows/agent-workflow/steps.ts` | Individual durable steps (`'use step'` directive) — post to Slack, resolve channel names, log actions                                            |
-| `lib/config.ts`                     | Centralized env var config (`COMMUNITY_NAME`, `AI_MODEL`, `SAVOIR_API_URL`, etc.)                                                                |
-| `lib/slack.ts`                      | Singleton Slack `WebClient` factory — used by Chat SDK and workflow steps                                                                        |
-| `lib/savoir.ts`                     | Lightweight HTTP client for the Savoir sandbox API (`bash`, `bash_batch`)                                                                        |
-| `lib/store.ts`                      | Upstash Redis store — writes/reads bot actions, stats, and conversations (indexed by action ID with sorted-set fallback)                         |
-| `lib/logger.ts`                     | Structured logger — outputs to console (visible in Vercel dashboard)                                                                             |
 
 > **Workflow constraint:** Files using `'use step'` or `'use workflow'` must live inside the `workflows/` directory for the bundler to process them. Node.js-only packages (like `@slack/web-api`) must be dynamically imported inside step functions — they can't be used at the workflow top level.
