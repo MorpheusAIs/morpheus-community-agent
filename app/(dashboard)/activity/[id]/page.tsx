@@ -6,7 +6,7 @@ import { notFound } from 'next/navigation';
 import Markdown from 'react-markdown';
 import { Header } from '@/components/Header';
 import { FormattedTime } from '@/components/FormattedTime';
-import { LiveStreamIndicator } from '@/components/LiveStreamIndicator';
+import { LiveStreamIndicator } from './_components/LiveStreamIndicator';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';

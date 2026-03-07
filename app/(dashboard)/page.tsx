@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { Header } from '@/components/Header';
-import { DashboardLive } from '@/components/DashboardLive';
+import { DashboardLive } from './_components/DashboardLive';
 import { FormattedTime } from '@/components/FormattedTime';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';

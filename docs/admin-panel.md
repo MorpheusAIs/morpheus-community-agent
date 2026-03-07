@@ -26,7 +26,7 @@ Client components poll Redis for active streams every 3 seconds. New conversatio
 
 ## Activity filters and search
 
-Type filter buttons (All, Answered, Routed, etc.) with colored dots and count badges. Uses `useOptimistic` + `startTransition` for instant feedback. The `searchParams` promise is passed to the async `ActivityList` inside `<Suspense>` while the page component stays non-async. A debounced text search input updates the `q` search param.
+shadcn `ToggleGroup` filter buttons (All, Answered, Routed, etc.) with colored dots and count badges. Uses `useOptimistic` + `startTransition` for instant feedback. The `searchParams` promise is passed to the async `ActivityList` inside `<Suspense>` while the page component stays non-async. A debounced text search input updates the `q` search param. Both reset pagination when changed.
 
 ## Pagination
 

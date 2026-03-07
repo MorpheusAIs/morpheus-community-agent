@@ -11,18 +11,18 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { Header } from '@/components/Header';
-import { ActiveStreams } from '@/components/ActiveStreams';
-import { ActiveStreamsProvider } from '@/components/ActiveStreamsContext';
-import { ActivityCardGlow } from '@/components/ActivityCardGlow';
-import { ActivityFilters } from '@/components/ActivityFilters';
-import { ActivitySearch } from '@/components/ActivitySearch';
+import { ActiveStreams } from './_components/ActiveStreams';
+import { ActiveStreamsProvider } from './_components/ActiveStreamsContext';
+import { ActivityCardGlow } from './_components/ActivityCardGlow';
+import { ActivityFilters } from './_components/ActivityFilters';
+import { ActivitySearch } from './_components/ActivitySearch';
 import {
   ConversationPreviewProvider,
   ConversationPreviewToggle,
   ConversationPreviewContent,
-} from '@/components/ConversationPreview';
+} from './_components/ConversationPreview';
 import { FormattedTime } from '@/components/FormattedTime';
-import { ShowMoreButton } from '@/components/ShowMoreButton';
+import { ShowMoreButton } from './_components/ShowMoreButton';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';

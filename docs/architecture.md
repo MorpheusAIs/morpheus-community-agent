@@ -58,11 +58,13 @@ Slack message → Chat SDK (receive & route) → Vercel Workflow (durable) → A
          │           │ └─ flag_to_lead                  │          │
          │           └────────────────────────────────┘          │
          │  5. Post response to Slack thread **                  │
-         │  6. If no tool already logged:                        │
+         │  6. If response mentions a channel (fallback):          │
+         │     → Log "routed" action                             │
+         │  7. Else if no tool already logged:                   │
          │     a. Resolve channel name                           │
          │     b. Get permalink (non-DM only)                    │
          │     c. Log "answered" action + conversation           │
-         │  7. End live stream (clear from Redis)                │
+         │  8. End live stream (clear from Redis)                │
          └──────────────────────────────────────────────────────┘
                          │
                          ▼
