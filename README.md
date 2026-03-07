@@ -47,10 +47,6 @@ This template is designed to work alongside the [Knowledge Agent Template](https
 - [Architecture](docs/architecture.md) — How the bot works, key files, workflow constraints
 - [Testing](docs/testing.md) — Test without Slack, simulate actions, mock data
 
-## AI Code Reviews
-
-Add [OpenReview](https://github.com/vercel-labs/openreview) to get AI-powered code reviews on pull requests. Deploy it as a separate Vercel project, create a GitHub App, and install it on this repo. Then mention `@openreview` in any PR comment to trigger a review.
-
 ## Built With
 
 - [Next.js 16](https://nextjs.org) — React framework with cacheComponents and React Compiler
