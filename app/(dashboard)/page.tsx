@@ -17,7 +17,7 @@ import { FormattedTime } from '@/components/FormattedTime';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { getDashboardStats, getRecentActions } from '@/data/queries/actions';
+import { getRecentActions } from '@/data/queries/actions';
 import { config } from '@/lib/config';
 import type { BotAction } from '@/lib/types';
 
@@ -103,12 +103,14 @@ export default function OverviewPage() {
 }
 
 async function StatsCards() {
-  const [stats, actions] = await Promise.all([getDashboardStats(), getRecentActions()]);
+  const actions = await getRecentActions();
 
+  const counts: Record<string, number> = { total: actions.length };
   // eslint-disable-next-line react-hooks/purity -- needed to compute "this week" from action timestamps
   const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
   const thisWeek: Record<string, number> = { total: 0 };
   for (const action of actions) {
+    counts[action.type] = (counts[action.type] || 0) + 1;
     if (action.timestamp >= weekAgo) {
       thisWeek[action.type] = (thisWeek[action.type] || 0) + 1;
       thisWeek.total++;
@@ -118,35 +120,35 @@ async function StatsCards() {
   const cards = [
     {
       title: 'Questions Answered',
-      value: String(stats.answered),
+      value: String(counts.answered || 0),
       type: 'answered' as const,
       href: '/activity?type=answered',
       weekly: thisWeek.answered || 0,
     },
     {
       title: 'Questions Routed',
-      value: String(stats.routed),
+      value: String(counts.routed || 0),
       type: 'routed' as const,
       href: '/activity?type=routed',
       weekly: thisWeek.routed || 0,
     },
     {
       title: 'Members Welcomed',
-      value: String(stats.welcomed),
+      value: String(counts.welcomed || 0),
       type: 'welcomed' as const,
       href: '/activity?type=welcomed',
       weekly: thisWeek.welcomed || 0,
     },
     {
       title: 'Questions Surfaced',
-      value: String(stats.surfaced),
+      value: String(counts.surfaced || 0),
       type: 'surfaced' as const,
       href: '/activity?type=surfaced',
       weekly: thisWeek.surfaced || 0,
     },
     {
       title: 'Issues Flagged',
-      value: String(stats.flagged),
+      value: String(counts.flagged || 0),
       type: 'flagged' as const,
       href: '/activity?type=flagged',
       weekly: thisWeek.flagged || 0,
@@ -197,7 +199,7 @@ async function StatsCards() {
             </div>
           </CardHeader>
           <CardContent className="px-3 sm:px-4">
-            <div className="text-2xl font-bold">{String(stats.total)}</div>
+            <div className="text-2xl font-bold">{String(counts.total)}</div>
             {thisWeek.total > 0 ? (
               <p className="hidden items-center gap-1 text-xs text-emerald-600 sm:flex dark:text-emerald-400">
                 <TrendingUp className="h-3 w-3" />+{thisWeek.total} this week
