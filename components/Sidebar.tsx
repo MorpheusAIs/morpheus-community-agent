@@ -33,7 +33,10 @@ export function Sidebar({ communityName }: { communityName: string }) {
       <SidebarHeader className="px-4 py-[14px]">
         <div className="flex items-center gap-2">
           <Bot className="h-6 w-6" />
-          <span className="truncate text-lg font-semibold">{communityName}</span>
+          <div className="min-w-0">
+            <span className="block truncate text-sm font-semibold">{communityName}</span>
+            <span className="block text-xs text-muted-foreground">Admin Panel</span>
+          </div>
         </div>
       </SidebarHeader>
       <SidebarSeparator className="mx-0" />
