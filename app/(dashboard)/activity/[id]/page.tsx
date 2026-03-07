@@ -93,7 +93,7 @@ async function ConversationDetail({ params }: Pick<PageProps<'/activity/[id]'>, 
                     <Bot className="h-4 w-4 text-muted-foreground" />
                   )}
                 </div>
-                <Card className={cn('max-w-[75%]', msg.role === 'assistant' && 'bg-muted/50')}>
+                <Card className={cn('max-w-[75%] gap-0 py-0', msg.role === 'assistant' && 'bg-muted/50')}>
                   <CardContent className="px-4 py-2 text-sm wrap-break-word">
                     {msg.role === 'assistant' ? (
                       <div className="prose prose-sm dark:prose-invert max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0.5 prose-headings:my-2">
@@ -124,14 +124,27 @@ function ConversationSkeleton() {
     <div className="space-y-4">
       <Card>
         <CardContent className="flex items-center justify-between py-3">
-          <Skeleton className="h-3.5 w-64" />
-          <Skeleton className="h-5 w-24" />
+          <Skeleton className="h-4 w-64" />
+          <Skeleton className="h-8 w-28" />
         </CardContent>
       </Card>
-      <div className="space-y-2 py-4">
-        <Skeleton className="h-4 w-48" />
-        <Skeleton className="h-4 w-72" />
-        <Skeleton className="h-4 w-56" />
+      <div className="space-y-3">
+        <div className="flex items-start gap-3">
+          <Skeleton className="h-8 w-8 shrink-0 rounded-full" />
+          <Skeleton className="h-14 w-3/5 rounded-xl" />
+        </div>
+        <div className="flex items-start flex-row-reverse gap-3">
+          <Skeleton className="h-8 w-8 shrink-0 rounded-full" />
+          <Skeleton className="h-20 w-3/5 rounded-xl" />
+        </div>
+        <div className="flex items-start gap-3">
+          <Skeleton className="h-8 w-8 shrink-0 rounded-full" />
+          <Skeleton className="h-10 w-2/5 rounded-xl" />
+        </div>
+        <div className="flex items-start flex-row-reverse gap-3">
+          <Skeleton className="h-8 w-8 shrink-0 rounded-full" />
+          <Skeleton className="h-16 w-3/5 rounded-xl" />
+        </div>
       </div>
     </div>
   );
