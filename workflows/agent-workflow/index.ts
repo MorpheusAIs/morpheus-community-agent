@@ -33,9 +33,18 @@ export async function workflowAgent(input: AgentInput): Promise<AgentResult> {
     : undefined;
 
   try {
+    let threadPermalink: string | null = null;
+    if (input.slack && !input.slack.channelId.startsWith('D')) {
+      threadPermalink = await stepGetPermalink(input.slack.channelId, input.slack.threadTs);
+    }
+
+    const systemSuffix = threadPermalink
+      ? `\n\nCurrent thread permalink (pass to flag_to_lead if needed): ${threadPermalink}`
+      : '';
+
     const agent = new DurableAgent({
       model: config.model,
-      system: buildInstructions(),
+      system: buildInstructions() + systemSuffix,
       tools: durableTools as any,
       providerOptions: {
         anthropic: {
@@ -61,19 +70,7 @@ export async function workflowAgent(input: AgentInput): Promise<AgentResult> {
       },
     });
 
-    let threadPermalink: string | null = null;
-    if (input.slack && !input.slack.channelId.startsWith('D')) {
-      threadPermalink = await stepGetPermalink(input.slack.channelId, input.slack.threadTs);
-    }
-
-    const contextSuffix = threadPermalink
-      ? `\n\nCurrent thread permalink: ${threadPermalink}`
-      : '';
-
-    const messages = [
-      ...(input.history || []),
-      { role: 'user' as const, content: input.prompt + contextSuffix },
-    ];
+    const messages = [...(input.history || []), { role: 'user' as const, content: input.prompt }];
 
     if (streamThreadId && input.slack) {
       const streamChannelName = await stepResolveChannelName(input.slack.channelId);
