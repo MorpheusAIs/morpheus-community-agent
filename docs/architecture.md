@@ -8,6 +8,85 @@ The app has two halves: a **Slack bot** and an **admin panel**, both in a single
 Slack message → Chat SDK (receive & route) → Vercel Workflow (durable) → AI SDK (think & generate) → Chat SDK (reply to Slack)
 ```
 
+```
+┌──────────────────────────────────────────────────────────────────────┐
+│                         SLACK WORKSPACE                              │
+│                                                                      │
+│  @bot mention ──┐    reply in thread ──┐    member joins ──┐        │
+└─────────────────┼──────────────────────┼───────────────────┼────────┘
+                  │                      │                   │
+                  ▼                      ▼                   ▼
+         ┌─────────────────────────────────────────────────────────┐
+         │           app/api/slack/route.ts                         │
+         │           Slack webhook entry point                      │
+         └───────┬───────────────────────┬───────────────────┬─────┘
+                 │                       │                   │
+                 ▼                       ▼                   ▼
+         ┌──────────────┐     ┌──────────────┐    ┌────────────────┐
+         │  Chat SDK     │     │  Chat SDK     │    │  Welcome DM    │
+         │  onNewMention │     │  onSubscribed │    │  lib/welcome.ts│
+         │  + subscribe  │     │  Message      │    │  (no workflow) │
+         └───────┬──────┘     └───────┬──────┘    └────────────────┘
+                 │                    │
+                 ▼                    ▼
+         ┌─────────────────────────────────┐
+         │          lib/chat.ts             │
+         │  1. Set "is thinking..." status  │
+         │  2. Fetch thread history          │
+         │  3. start(workflowAgent)          │
+         └───────────────┬─────────────────┘
+                         │ fire-and-forget
+                         ▼
+         ┌──────────────────────────────────────────────────────┐
+         │       Vercel Workflow (durable)                       │
+         │       workflows/agent-workflow/index.ts               │
+         │                                                       │
+         │  1. Resolve channel name                              │
+         │  2. Start live stream (write to Redis)                │
+         │  3. Save user message (follow-ups only)               │
+         │  4. Run DurableAgent (AI SDK + Claude)                │
+         │           ┌────────────────────────────────┐          │
+         │           │ System prompt (lib/agent.ts)    │          │
+         │           │ Up to 50 tool-use steps         │          │
+         │           │ Context mgmt at 80k/100k tokens │          │
+         │           │                                  │          │
+         │           │ Tools:                           │          │
+         │           │ ├─ suggest_channel               │          │
+         │           │ ├─ unanswered                    │          │
+         │           │ ├─ web_search                    │          │
+         │           │ ├─ bash / bash_batch *           │          │
+         │           │ └─ flag_to_lead                  │          │
+         │           └────────────────────────────────┘          │
+         │  5. Post response to Slack thread **                  │
+         │  6. If no tool already logged:                        │
+         │     a. Resolve channel name                           │
+         │     b. Get permalink (non-DM only)                    │
+         │     c. Log "answered" action + conversation           │
+         │  7. End live stream (clear from Redis)                │
+         └──────────────────────────────────────────────────────┘
+                         │
+                         ▼
+         ┌─────────────────────────────────┐
+         │         Upstash Redis            │
+         │  • Bot actions (30-day TTL)      │
+         │  • Full conversations            │
+         │  • Active stream entries          │
+         │  • Stats                          │
+         └───────────────┬─────────────────┘
+                         │ polled every 3s
+                         ▼
+         ┌─────────────────────────────────┐
+         │      Admin Panel (Next.js)       │
+         │  • Live streaming cards          │
+         │  • Activity feed + stats          │
+         │  • Conversation detail            │
+         │  • Slack OAuth (Better Auth)      │
+         └─────────────────────────────────┘
+
+*  bash/bash_batch require SAVOIR_API_URL
+** First DM gets a "may be reviewed by the community lead" disclaimer
+```
+
 Three layers work together:
 
 - **[Chat SDK](https://chat-sdk.dev)** — the messaging layer. Receives Slack webhook events, manages conversation threads, stores history in Redis, sends replies, shows typing indicators. It's the bot's "mouth and ears." Supports multiple platforms (Slack, Discord) so the same AI logic can be reused with a different adapter.
