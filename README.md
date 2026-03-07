@@ -15,7 +15,7 @@ Open source AI-powered Slack community management bot with a built-in Next.js ad
 - **Sandbox execution** — Optional `bash`/`bash_batch` tools for running commands in a sandboxed environment via the [Knowledge Agent Template](https://github.com/vercel-labs/knowledge-agent-template) API
 - **Native Slack UI** — Typing indicators, threaded replies, and DMs. Powered by [Chat SDK](https://chat-sdk.dev)
 - **Admin panel** — Live dashboard with real-time streaming indicators, activity feed, type filters, text search, inline conversation previews, analytics charts, and settings page with channel overview
-- **Auth** — Slack OAuth via [Better Auth](https://www.better-auth.com) restricts the admin panel to workspace members. Data-layer auth guards on every query and server action
+- **Auth** — Slack OAuth via [Better Auth](https://www.better-auth.com) restricts the admin panel to workspace members
 
 ## Quick Start
 
