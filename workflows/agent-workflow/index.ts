@@ -61,7 +61,19 @@ export async function workflowAgent(input: AgentInput): Promise<AgentResult> {
       },
     });
 
-    const messages = [...(input.history || []), { role: 'user' as const, content: input.prompt }];
+    let threadPermalink: string | null = null;
+    if (input.slack && !input.slack.channelId.startsWith('D')) {
+      threadPermalink = await stepGetPermalink(input.slack.channelId, input.slack.threadTs);
+    }
+
+    const contextSuffix = threadPermalink
+      ? `\n\nCurrent thread permalink: ${threadPermalink}`
+      : '';
+
+    const messages = [
+      ...(input.history || []),
+      { role: 'user' as const, content: input.prompt + contextSuffix },
+    ];
 
     if (streamThreadId && input.slack) {
       const streamChannelName = await stepResolveChannelName(input.slack.channelId);
