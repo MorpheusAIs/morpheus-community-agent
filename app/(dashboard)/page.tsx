@@ -62,54 +62,62 @@ async function StatsCards() {
       value: String(stats.answered),
       description: 'Community questions handled',
       icon: MessageSquare,
+      href: '/activity?type=answered',
     },
     {
       title: 'Questions Routed',
       value: String(stats.routed),
       description: 'Directed to the right channel',
       icon: ArrowRightLeft,
+      href: '/activity?type=routed',
     },
     {
       title: 'Members Welcomed',
       value: String(stats.welcomed),
       description: 'New members greeted',
       icon: UserPlus,
+      href: '/activity?type=welcomed',
     },
     {
       title: 'Questions Surfaced',
       value: String(stats.surfaced),
       description: 'Unanswered threads found',
       icon: HelpCircle,
+      href: '/activity?type=surfaced',
     },
     {
       title: 'Issues Flagged',
       value: String(stats.flagged),
       description: 'Escalated to community lead',
       icon: AlertTriangle,
+      href: '/activity?type=flagged',
     },
     {
       title: 'Total Actions',
       value: String(stats.total),
       description: 'All bot interactions',
       icon: MessageSquare,
+      href: '/activity',
     },
   ];
 
   return (
     <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-3">
       {cards.map((stat) => (
-        <Card key={stat.title} className="gap-2 py-3 sm:gap-6 sm:py-6">
-          <CardHeader className="flex flex-row items-center justify-between px-3 pb-0 sm:px-6 sm:pb-2">
-            <CardTitle className="text-xs font-medium text-muted-foreground sm:text-sm">
-              {stat.title}
-            </CardTitle>
-            <stat.icon className="hidden h-4 w-4 text-muted-foreground sm:block" />
-          </CardHeader>
-          <CardContent className="px-3 sm:px-6">
-            <div className="text-2xl font-bold sm:text-3xl">{stat.value}</div>
-            <p className="hidden text-xs text-muted-foreground sm:block">{stat.description}</p>
-          </CardContent>
-        </Card>
+        <Link key={stat.title} href={stat.href}>
+          <Card className="gap-2 py-3 transition-colors hover:bg-accent/50 sm:gap-6 sm:py-6">
+            <CardHeader className="flex flex-row items-center justify-between px-3 pb-0 sm:px-6 sm:pb-2">
+              <CardTitle className="text-xs font-medium text-muted-foreground sm:text-sm">
+                {stat.title}
+              </CardTitle>
+              <stat.icon className="hidden h-4 w-4 text-muted-foreground sm:block" />
+            </CardHeader>
+            <CardContent className="px-3 sm:px-6">
+              <div className="text-2xl font-bold sm:text-3xl">{stat.value}</div>
+              <p className="hidden text-xs text-muted-foreground sm:block">{stat.description}</p>
+            </CardContent>
+          </Card>
+        </Link>
       ))}
     </div>
   );
