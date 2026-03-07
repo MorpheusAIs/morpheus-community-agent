@@ -99,12 +99,7 @@ Tools (`suggest_channel`, `unanswered`, `bash`, `bash_batch`, `web_search`, `fla
 
 ## Admin panel
 
-- Server-rendered dashboard built with shadcn/ui, Geist font, light/dark theme
-- `cacheComponents` and React Compiler enabled — pages are non-async, maximizing the static shell
-- **Live streaming**: client components poll Redis for active streams every 3 seconds. New conversations get a standalone streaming card; follow-up messages in existing threads highlight the existing activity card with a green ring instead. The overview page shows how many conversations the bot is handling, and the conversation detail page shows a "Bot is responding..." indicator. When streams end, `startTransition` batches the cleanup with `router.refresh()` so stats and action lists update seamlessly via ViewTransition
-- Bot actions and full conversations logged to Upstash Redis (30-day TTL)
-- Slack OAuth via Better Auth — only workspace members can sign in
-- Falls back to mock data when Redis is not configured — works out of the box
+Server-rendered dashboard with live streaming, activity feed, and conversation history. Slack OAuth via Better Auth restricts access to workspace members. Falls back to mock data when Redis is not configured. See [Admin panel](admin-panel.md) for Next.js implementation details.
 
 ## Key Files
 
@@ -120,22 +115,16 @@ Tools (`suggest_channel`, `unanswered`, `bash`, `bash_batch`, `web_search`, `fla
 
 **How the bot works:**
 
-| File                                  | Role                                                                                                                                             |
-| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `app/api/slack/route.ts`              | Slack webhook entry point — routes events to Chat SDK, handles `member_joined_channel` for welcome messages                                      |
-| `lib/chat.ts`                         | Chat SDK setup — receives mentions, manages threads (format: `slack:CHANNEL_ID:THREAD_TS`), fetches history, starts the workflow fire-and-forget |
-| `workflows/agent-workflow/index.ts`   | Durable workflow — runs DurableAgent, posts response to Slack, logs the action with conversation                                                 |
-| `workflows/agent-workflow/steps.ts`   | Individual durable steps (`'use step'` directive) — post to Slack, resolve channel names, log actions                                            |
-| `lib/config.ts`                       | Centralized env var config (`COMMUNITY_NAME`, `AI_MODEL`, `SAVOIR_API_URL`, etc.)                                                                |
-| `lib/slack.ts`                        | Singleton Slack `WebClient` factory — used by Chat SDK and workflow steps                                                                        |
-| `lib/savoir.ts`                       | Lightweight HTTP client for the Savoir sandbox API (`bash`, `bash_batch`)                                                                        |
-| `lib/store.ts`                        | Upstash Redis store — writes/reads bot actions, stats, and conversations (indexed by action ID with sorted-set fallback)                         |
-| `lib/logger.ts`                       | Structured logger — outputs to console (visible in Vercel dashboard)                                                                             |
-| `data/actions/stream.ts`              | Server Actions for polling active streams — annotates each with `isFollowUp`                                                                     |
-| `components/ActiveStreamsContext.tsx` | React context sharing active threadKeys between streaming and activity card components                                                           |
-| `components/ActiveStreams.tsx`        | Live streaming cards for new conversations — follow-ups highlight existing cards instead                                                         |
-| `components/ActivityCardGlow.tsx`     | Thin client wrapper that applies a green ring to activity cards with active streams                                                              |
-| `components/LiveStreamIndicator.tsx`  | "Bot is responding..." indicator inside conversation detail pages                                                                                |
-| `components/DashboardLive.tsx`        | Active conversation count banner on the overview page — refreshes stats on completion                                                            |
+| File                                | Role                                                                                                                                             |
+| ----------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `app/api/slack/route.ts`            | Slack webhook entry point — routes events to Chat SDK, handles `member_joined_channel` for welcome messages                                      |
+| `lib/chat.ts`                       | Chat SDK setup — receives mentions, manages threads (format: `slack:CHANNEL_ID:THREAD_TS`), fetches history, starts the workflow fire-and-forget |
+| `workflows/agent-workflow/index.ts` | Durable workflow — runs DurableAgent, posts response to Slack, logs the action with conversation                                                 |
+| `workflows/agent-workflow/steps.ts` | Individual durable steps (`'use step'` directive) — post to Slack, resolve channel names, log actions                                            |
+| `lib/config.ts`                     | Centralized env var config (`COMMUNITY_NAME`, `AI_MODEL`, `SAVOIR_API_URL`, etc.)                                                                |
+| `lib/slack.ts`                      | Singleton Slack `WebClient` factory — used by Chat SDK and workflow steps                                                                        |
+| `lib/savoir.ts`                     | Lightweight HTTP client for the Savoir sandbox API (`bash`, `bash_batch`)                                                                        |
+| `lib/store.ts`                      | Upstash Redis store — writes/reads bot actions, stats, and conversations (indexed by action ID with sorted-set fallback)                         |
+| `lib/logger.ts`                     | Structured logger — outputs to console (visible in Vercel dashboard)                                                                             |
 
 > **Workflow constraint:** Files using `'use step'` or `'use workflow'` must live inside the `workflows/` directory for the bundler to process them. Node.js-only packages (like `@slack/web-api`) must be dynamically imported inside step functions — they can't be used at the workflow top level.

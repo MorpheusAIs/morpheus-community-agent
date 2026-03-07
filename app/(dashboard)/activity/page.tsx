@@ -5,7 +5,6 @@ import {
   AlertTriangle,
   ArrowRightLeft,
   ExternalLink,
-  MessageCircle,
   MessageSquare,
   Search,
   UserPlus,
@@ -16,7 +15,14 @@ import { ActiveStreams } from '@/components/ActiveStreams';
 import { ActiveStreamsProvider } from '@/components/ActiveStreamsContext';
 import { ActivityCardGlow } from '@/components/ActivityCardGlow';
 import { ActivityFilters } from '@/components/ActivityFilters';
+import { ActivitySearch } from '@/components/ActivitySearch';
+import {
+  ConversationPreviewProvider,
+  ConversationPreviewToggle,
+  ConversationPreviewContent,
+} from '@/components/ConversationPreview';
 import { FormattedTime } from '@/components/FormattedTime';
+import { ShowMoreButton } from '@/components/ShowMoreButton';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -24,6 +30,7 @@ import { getRecentActions } from '@/data/queries/actions';
 import { auth } from '@/lib/auth';
 import { getLastSeen, setLastSeen } from '@/lib/store';
 import type { BotAction } from '@/lib/types';
+import { cn } from '@/lib/utils';
 import { ViewTransition } from 'react';
 
 const typeConfig: Record<
@@ -32,13 +39,45 @@ const typeConfig: Record<
     icon: typeof ArrowRightLeft;
     label: string;
     variant: 'default' | 'secondary' | 'outline' | 'destructive';
+    iconColor: string;
+    bgColor: string;
   }
 > = {
-  routed: { icon: ArrowRightLeft, label: 'Routed', variant: 'outline' },
-  welcomed: { icon: UserPlus, label: 'Welcomed', variant: 'secondary' },
-  surfaced: { icon: Search, label: 'Surfaced', variant: 'outline' },
-  answered: { icon: MessageSquare, label: 'Answered', variant: 'default' },
-  flagged: { icon: AlertTriangle, label: 'Flagged', variant: 'destructive' },
+  routed: {
+    icon: ArrowRightLeft,
+    label: 'Routed',
+    variant: 'outline',
+    iconColor: 'text-orange-500',
+    bgColor: 'bg-orange-500/10',
+  },
+  welcomed: {
+    icon: UserPlus,
+    label: 'Welcomed',
+    variant: 'secondary',
+    iconColor: 'text-green-500',
+    bgColor: 'bg-green-500/10',
+  },
+  surfaced: {
+    icon: Search,
+    label: 'Surfaced',
+    variant: 'outline',
+    iconColor: 'text-purple-500',
+    bgColor: 'bg-purple-500/10',
+  },
+  answered: {
+    icon: MessageSquare,
+    label: 'Answered',
+    variant: 'default',
+    iconColor: 'text-blue-500',
+    bgColor: 'bg-blue-500/10',
+  },
+  flagged: {
+    icon: AlertTriangle,
+    label: 'Flagged',
+    variant: 'destructive',
+    iconColor: 'text-red-500',
+    bgColor: 'bg-red-500/10',
+  },
 };
 
 export default function ActivityPage({ searchParams }: PageProps<'/activity'>) {
@@ -48,9 +87,14 @@ export default function ActivityPage({ searchParams }: PageProps<'/activity'>) {
       <div className="flex-1 space-y-4 p-6">
         <ActiveStreamsProvider>
           <ActiveStreams />
-          <Suspense fallback={<ActivityFiltersSkeleton />}>
-            <ActivityFilters />
-          </Suspense>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <Suspense fallback={<ActivityFiltersSkeleton />}>
+              <ActivityFiltersWithCounts />
+            </Suspense>
+            <Suspense>
+              <ActivitySearch />
+            </Suspense>
+          </div>
           <Suspense fallback={<ActivityListSkeleton />}>
             <ActivityList searchParams={searchParams} />
           </Suspense>
@@ -61,7 +105,7 @@ export default function ActivityPage({ searchParams }: PageProps<'/activity'>) {
 }
 
 async function ActivityList({ searchParams }: Pick<PageProps<'/activity'>, 'searchParams'>) {
-  const [{ type }, allActions, session] = await Promise.all([
+  const [{ type, q, limit: limitParam }, allActions, session] = await Promise.all([
     searchParams,
     getRecentActions(),
     auth.api.getSession({ headers: await headers() }).catch(() => {
@@ -69,9 +113,25 @@ async function ActivityList({ searchParams }: Pick<PageProps<'/activity'>, 'sear
     }),
   ] as const);
 
-  const actions: BotAction[] = type
+  let actions: BotAction[] = type
     ? allActions.filter((a: BotAction) => a.type === type)
-    : allActions;
+    : [...allActions];
+
+  const searchQuery = Array.isArray(q) ? q[0] : q;
+  if (searchQuery) {
+    const query = searchQuery.toLowerCase();
+    actions = actions.filter(
+      (a: BotAction) =>
+        a.description.toLowerCase().includes(query) ||
+        a.channel.toLowerCase().includes(query) ||
+        a.user?.toLowerCase().includes(query),
+    );
+  }
+
+  const PAGE_SIZE = 20;
+  const totalCount = actions.length;
+  const limit = limitParam ? Math.min(Number(limitParam), totalCount) : PAGE_SIZE;
+  const paginatedActions = actions.slice(0, limit);
 
   let lastSeen = 0;
   if (session?.user?.id) {
@@ -79,13 +139,22 @@ async function ActivityList({ searchParams }: Pick<PageProps<'/activity'>, 'sear
   }
 
   if (actions.length === 0) {
+    const filterLabel = type ? typeConfig[type as BotAction['type']]?.label : null;
+    const hasFilters = type || searchQuery;
     return (
       <div className="flex flex-col items-center justify-center rounded-lg border border-dashed p-12 text-center">
         <MessageSquare className="h-10 w-10 text-muted-foreground/50" />
-        <h3 className="mt-4 text-lg font-medium">No activity yet</h3>
+        <h3 className="mt-4 text-lg font-medium">
+          {hasFilters ? 'No matching actions' : 'No activity yet'}
+        </h3>
         <p className="mt-1 text-sm text-muted-foreground">
-          Bot actions will appear here as your community agent handles messages, routes questions,
-          and welcomes members.
+          {searchQuery && filterLabel
+            ? `No ${filterLabel.toLowerCase()} actions matching "${searchQuery}".`
+            : searchQuery
+              ? `No actions matching "${searchQuery}". Try a different search term.`
+              : filterLabel
+                ? `No ${filterLabel.toLowerCase()} actions yet.`
+                : 'Bot actions will appear here as your community agent handles messages, routes questions, and welcomes members.'}
         </p>
       </div>
     );
@@ -99,78 +168,113 @@ async function ActivityList({ searchParams }: Pick<PageProps<'/activity'>, 'sear
 
   return (
     <div className="space-y-3">
-      {actions.map((action) => {
+      {paginatedActions.map((action) => {
         const config = typeConfig[action.type];
         const Icon = config.icon;
         const isNew = lastSeen > 0 && action.timestamp > lastSeen;
 
+        const cardContent = (
+          <Card className={isNew ? 'animate-new-glow' : ''}>
+            <CardContent className="flex items-start gap-3 py-3 sm:gap-4 sm:py-4">
+              <div
+                className={cn(
+                  'flex h-7 w-7 shrink-0 items-center justify-center rounded-full sm:h-9 sm:w-9',
+                  config.bgColor,
+                )}
+              >
+                <Icon className={cn('h-3.5 w-3.5 sm:h-4 sm:w-4', config.iconColor)} />
+              </div>
+              <div className="min-w-0 flex-1 space-y-1">
+                <div className="flex items-center gap-2">
+                  <Badge variant={config.variant} className="shrink-0 sm:hidden">
+                    {config.label}
+                  </Badge>
+                  {isNew && (
+                    <Badge variant="secondary" className="shrink-0 text-[10px] sm:hidden">
+                      New
+                    </Badge>
+                  )}
+                </div>
+                <p className="text-sm">{action.description}</p>
+                <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted-foreground">
+                  <FormattedTime timestamp={action.timestamp} />
+                  {action.lastUpdated && action.lastUpdated !== action.timestamp && (
+                    <>
+                      <span>&middot;</span>
+                      <span>
+                        updated <FormattedTime timestamp={action.lastUpdated} />
+                      </span>
+                    </>
+                  )}
+                  <span>&middot;</span>
+                  <span>{action.channel}</span>
+                </div>
+                {(action.type === 'answered' || action.metadata?.permalink) && (
+                  <div className="flex flex-wrap items-center gap-2 pt-0.5">
+                    {action.type === 'answered' && (
+                      <>
+                        <ConversationPreviewToggle />
+                        <Link
+                          href={`/activity/${action.id}` as any}
+                          className="inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-xs font-medium text-foreground transition-colors hover:bg-accent"
+                        >
+                          Full thread
+                        </Link>
+                      </>
+                    )}
+                    {action.metadata?.permalink && (
+                      <a
+                        href={action.metadata.permalink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-xs font-medium text-foreground transition-colors hover:bg-accent"
+                      >
+                        <ExternalLink className="h-3 w-3" />
+                        View in Slack
+                      </a>
+                    )}
+                  </div>
+                )}
+                {action.type === 'answered' && <ConversationPreviewContent />}
+              </div>
+              <div className="hidden items-center gap-2 sm:flex">
+                {isNew && <Badge variant="secondary">New</Badge>}
+                <Badge variant={config.variant}>{config.label}</Badge>
+              </div>
+            </CardContent>
+          </Card>
+        );
+
         return (
           <ViewTransition key={action.threadKey ?? action.id}>
             <ActivityCardGlow threadKey={action.threadKey}>
-              <Card className={isNew ? 'animate-new-glow' : ''}>
-                <CardContent className="flex items-start gap-3 py-3 sm:gap-4 sm:py-4">
-                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-muted sm:h-9 sm:w-9">
-                    <Icon className="h-3.5 w-3.5 text-muted-foreground sm:h-4 sm:w-4" />
-                  </div>
-                  <div className="min-w-0 flex-1 space-y-1">
-                    <div className="flex items-center gap-2">
-                      <p className="text-sm">{action.description}</p>
-                      {isNew && (
-                        <Badge variant="secondary" className="shrink-0 text-[10px] sm:hidden">
-                          New
-                        </Badge>
-                      )}
-                    </div>
-                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted-foreground">
-                      <FormattedTime timestamp={action.timestamp} />
-                      {action.lastUpdated && action.lastUpdated !== action.timestamp && (
-                        <>
-                          <span>&middot;</span>
-                          <span>
-                            updated <FormattedTime timestamp={action.lastUpdated} />
-                          </span>
-                        </>
-                      )}
-                      <span>&middot;</span>
-                      <span>{action.channel}</span>
-                    </div>
-                    {(action.type === 'answered' || action.metadata?.permalink) && (
-                      <div className="flex flex-wrap items-center gap-2 pt-0.5">
-                        {action.type === 'answered' && (
-                          <Link
-                            href={`/activity/${action.id}` as any}
-                            className="inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-xs font-medium text-foreground transition-colors hover:bg-accent"
-                          >
-                            <MessageCircle className="h-3 w-3" />
-                            Conversation
-                          </Link>
-                        )}
-                        {action.metadata?.permalink && (
-                          <a
-                            href={action.metadata.permalink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-xs font-medium text-foreground transition-colors hover:bg-accent"
-                          >
-                            <ExternalLink className="h-3 w-3" />
-                            View in Slack
-                          </a>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                  <div className="hidden items-center gap-2 sm:flex">
-                    {isNew && <Badge variant="secondary">New</Badge>}
-                    <Badge variant={config.variant}>{config.label}</Badge>
-                  </div>
-                </CardContent>
-              </Card>
+              {action.type === 'answered' ? (
+                <ConversationPreviewProvider actionId={action.id}>
+                  {cardContent}
+                </ConversationPreviewProvider>
+              ) : (
+                cardContent
+              )}
             </ActivityCardGlow>
           </ViewTransition>
         );
       })}
+      <ShowMoreButton
+        totalCount={totalCount}
+        currentCount={paginatedActions.length}
+        pageSize={PAGE_SIZE}
+      />
     </div>
   );
+}
+
+async function ActivityFiltersWithCounts() {
+  const actions = await getRecentActions();
+  const counts: Record<string, number> = { all: actions.length };
+  for (const action of actions) {
+    counts[action.type] = (counts[action.type] || 0) + 1;
+  }
+  return <ActivityFilters counts={counts} />;
 }
 
 function ActivityFiltersSkeleton() {

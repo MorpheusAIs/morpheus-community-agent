@@ -13,7 +13,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { getActionById, getConversation } from '@/data/queries/actions';
 import { isCurrentUserLead } from '@/lib/auth';
 import { getThreadKeyForAction } from '@/lib/store';
-import { cn } from '@/lib/utils';
+import { cn, cleanSlackText } from '@/lib/utils';
 
 export default function ConversationPage({ params }: PageProps<'/activity/[id]'>) {
   return (
@@ -117,16 +117,6 @@ async function ConversationDetail({ params }: Pick<PageProps<'/activity/[id]'>, 
       )}
     </div>
   );
-}
-
-function cleanSlackText(text: string): string {
-  return text
-    .replace(/<@[A-Z0-9]+>/g, '')
-    .replace(/@U[A-Z0-9]{8,}/g, '')
-    .replace(/<#[A-Z0-9]+\|([^>]+)>/g, '#$1')
-    .replace(/<(https?:\/\/[^|>]+)\|([^>]+)>/g, '$2')
-    .replace(/<(https?:\/\/[^>]+)>/g, '$1')
-    .trim();
 }
 
 function ConversationSkeleton() {

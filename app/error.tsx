@@ -1,36 +1,36 @@
 'use client';
 
 import { useEffect } from 'react';
-import { AlertCircle } from 'lucide-react';
+import { AlertOctagon, RotateCcw } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 type ErrorProps = {
   error: Error & { digest?: string };
   reset: () => void;
 };
 
-export default function Error({ error, reset }: ErrorProps) {
+export default function GlobalError({ error, reset }: ErrorProps) {
   useEffect(() => {
     console.error('Unhandled error:', error);
   }, [error]);
 
   return (
-    <div className="p-6">
-      <Card className="w-full max-w-md">
-        <CardHeader className="flex flex-row items-center gap-3">
-          <AlertCircle className="h-5 w-5 text-destructive" />
-          <CardTitle className="text-base">Something went wrong</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <p className="text-sm text-muted-foreground">
-            {error.message || 'An unexpected error occurred.'}
-          </p>
-          <Button variant="outline" size="sm" onClick={reset}>
-            Try again
-          </Button>
-        </CardContent>
-      </Card>
+    <div className="flex min-h-[60vh] flex-col items-center justify-center px-6 text-center">
+      <div className="rounded-full bg-destructive/10 p-4">
+        <AlertOctagon className="h-8 w-8 text-destructive" />
+      </div>
+      <h1 className="mt-6 text-2xl font-semibold">Something went wrong</h1>
+      <p className="mt-2 max-w-md text-sm text-muted-foreground">
+        An unexpected error occurred. If this keeps happening, try refreshing the page or contact
+        support.
+      </p>
+      {error.digest && (
+        <p className="mt-3 font-mono text-xs text-muted-foreground/50">Error ID: {error.digest}</p>
+      )}
+      <Button variant="outline" className="mt-6" onClick={reset}>
+        <RotateCcw className="mr-2 h-4 w-4" />
+        Try again
+      </Button>
     </div>
   );
 }

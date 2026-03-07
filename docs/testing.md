@@ -28,14 +28,6 @@ To clear all stored actions and streams (useful after initial testing or when up
 curl -X DELETE http://localhost:3000/api/test-action -b "better-auth.session_token=YOUR_SESSION_TOKEN"
 ```
 
-## Admin panel pages
+## Running without Redis
 
-| Page         | URL              | What updates                                                          |
-| ------------ | ---------------- | --------------------------------------------------------------------- |
-| Overview     | `/`              | Stats counters (answered, routed, welcomed, surfaced, flagged, total) |
-| Activity     | `/activity`      | New entry in the timeline                                             |
-| Conversation | `/activity/[id]` | Full conversation thread (for answered actions)                       |
-
-The Activity page shows **live conversations** in real-time as the agent responds, and the Conversation page shows a live indicator when the bot is actively replying. The activity list refreshes automatically when a conversation completes.
-
-**Without Redis:** Comment out the Upstash env vars and the admin panel falls back to mock data, including mock conversations for three sample actions.
+Comment out the Upstash env vars and the admin panel falls back to mock data, including mock conversations for three sample actions. This lets you work on the UI without any external services.

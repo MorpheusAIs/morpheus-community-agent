@@ -5,15 +5,19 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { cn } from '@/lib/utils';
 
 const filters = [
-  { value: 'all', label: 'All' },
-  { value: 'answered', label: 'Answered' },
-  { value: 'routed', label: 'Routed' },
-  { value: 'welcomed', label: 'Welcomed' },
-  { value: 'surfaced', label: 'Surfaced' },
-  { value: 'flagged', label: 'Flagged' },
+  { value: 'all', label: 'All', color: null },
+  { value: 'answered', label: 'Answered', color: 'bg-blue-500' },
+  { value: 'routed', label: 'Routed', color: 'bg-orange-500' },
+  { value: 'welcomed', label: 'Welcomed', color: 'bg-green-500' },
+  { value: 'surfaced', label: 'Surfaced', color: 'bg-purple-500' },
+  { value: 'flagged', label: 'Flagged', color: 'bg-red-500' },
 ] as const;
 
-export function ActivityFilters() {
+type ActivityFiltersProps = {
+  counts?: Record<string, number>;
+};
+
+export function ActivityFilters({ counts }: ActivityFiltersProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentType = searchParams.get('type') || 'all';
@@ -36,20 +40,44 @@ export function ActivityFilters() {
 
   return (
     <div className="flex flex-wrap gap-2" data-pending={isPending ? '' : undefined}>
-      {filters.map((filter) => (
-        <button
-          key={filter.value}
-          onClick={() => filterAction(filter.value)}
-          className={cn(
-            'rounded-md border px-3 py-1.5 text-xs font-medium transition-colors',
-            optimisticType === filter.value
-              ? 'border-foreground/20 bg-foreground text-background'
-              : 'border-border bg-background text-muted-foreground hover:bg-accent hover:text-foreground',
-          )}
-        >
-          {filter.label}
-        </button>
-      ))}
+      {filters.map((filter) => {
+        const count = counts?.[filter.value];
+        return (
+          <button
+            key={filter.value}
+            onClick={() => filterAction(filter.value)}
+            className={cn(
+              'rounded-md border px-3 py-1.5 text-xs font-medium transition-colors',
+              optimisticType === filter.value
+                ? 'border-foreground/20 bg-foreground text-background'
+                : 'border-border bg-background text-muted-foreground hover:bg-accent hover:text-foreground',
+            )}
+          >
+            {filter.color && (
+              <span
+                className={cn(
+                  'mr-1.5 inline-block h-2 w-2 rounded-full',
+                  filter.color,
+                  optimisticType === filter.value && 'opacity-70',
+                )}
+              />
+            )}
+            {filter.label}
+            {count !== undefined && (
+              <span
+                className={cn(
+                  'ml-1.5 tabular-nums',
+                  optimisticType === filter.value
+                    ? 'text-background/70'
+                    : 'text-muted-foreground/60',
+                )}
+              >
+                {count}
+              </span>
+            )}
+          </button>
+        );
+      })}
     </div>
   );
 }
