@@ -36,7 +36,6 @@ export function ActivitySearch() {
       </label>
       <Input
         id="activity-search"
-        key={searchParams.get('q') || ''}
         type="search"
         placeholder="Search activity..."
         defaultValue={searchParams.get('q') || ''}
