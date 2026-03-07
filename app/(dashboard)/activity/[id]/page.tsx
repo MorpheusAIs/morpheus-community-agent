@@ -22,7 +22,7 @@ export default function ConversationPage({ params }: PageProps<'/activity/[id]'>
       <div className="flex-1 p-6">
         <Button variant="ghost" size="sm" className="mb-4" asChild>
           <Link href="/activity">
-            <ArrowLeft className="mr-1 h-3 w-3" /> Back to Activity
+            <ArrowLeft className="mr-1 h-3 w-3" /> Activity
           </Link>
         </Button>
         <Suspense fallback={<ConversationSkeleton />}>
@@ -58,7 +58,10 @@ async function ConversationDetail({ params }: Pick<PageProps<'/activity/[id]'>, 
           </span>
           {action.metadata?.permalink && (
             <a href={action.metadata.permalink} target="_blank" rel="noopener noreferrer">
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="icon" className="h-8 w-8 shrink-0 sm:hidden">
+                <ExternalLink className="h-3.5 w-3.5" />
+              </Button>
+              <Button variant="outline" size="sm" className="hidden sm:inline-flex">
                 <ExternalLink className="mr-1 h-3 w-3" />
                 View in Slack
               </Button>
@@ -96,7 +99,7 @@ async function ConversationDetail({ params }: Pick<PageProps<'/activity/[id]'>, 
                 <Card className={cn('max-w-[75%] gap-0 py-0', msg.role === 'assistant' && 'bg-muted/50')}>
                   <CardContent className="px-4 py-2 text-sm wrap-break-word">
                     {msg.role === 'assistant' ? (
-                      <div className="prose prose-sm dark:prose-invert max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0.5 prose-headings:my-2">
+                      <div className="prose prose-sm dark:prose-invert max-w-none prose-p:my-1 prose-ul:my-1 prose-ol:my-1 prose-li:my-0.5 prose-headings:my-1 prose-headings:text-sm prose-headings:font-semibold">
                         <Markdown>{cleanSlackText(msg.content)}</Markdown>
                       </div>
                     ) : (
