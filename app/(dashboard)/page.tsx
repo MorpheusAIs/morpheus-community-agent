@@ -11,6 +11,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { getDashboardStats, getRecentActions, getAnalyticsData } from '@/data/queries/activity';
 import { config } from '@/lib/config';
 import { typeConfig } from '@/config/type-config';
+import { AnimatedNumber } from '@/components/AnimatedNumber';
 
 export default function OverviewPage() {
   return (
@@ -134,7 +135,7 @@ async function StatsCards() {
                 </div>
               </CardHeader>
               <CardContent className="px-3">
-                <div className="text-xl font-bold">{stat.value}</div>
+                <AnimatedNumber value={stat.value} className="text-xl font-bold" />
                 {stat.weekly > 0 ? (
                   <p className="hidden items-center gap-1 text-xs text-success sm:flex">
                     <TrendingUp className="h-3 w-3" />+{stat.weekly} this week
@@ -160,7 +161,7 @@ async function StatsCards() {
             </div>
           </CardHeader>
           <CardContent className="px-3">
-            <div className="text-xl font-bold">{String(counts.total)}</div>
+            <AnimatedNumber value={String(counts.total)} className="text-xl font-bold" />
             {thisWeek.total > 0 ? (
               <p className="hidden items-center gap-1 text-xs text-success sm:flex">
                 <TrendingUp className="h-3 w-3" />+{thisWeek.total} this week
