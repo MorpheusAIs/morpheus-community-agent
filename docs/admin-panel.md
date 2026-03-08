@@ -18,6 +18,10 @@ When Upstash Redis is not configured, queries fall back to `data/mock/` so the p
 
 The workflow writes a stream entry to Redis when the bot starts processing a message and clears it when done. Client Components poll for active streams via SWR (`refreshInterval: 3000`) against GET API routes (`/api/streams`, `/api/streams/[threadKey]`). SWR handles deduplication, `keepPreviousData` to prevent flicker, and `revalidateOnFocus` for instant updates when tabbing back. A React context provider shares the set of active thread keys across the activity page so the status card, activity card highlights, and conversation detail indicators all react to the same data.
 
+## Transitions
+
+`<ViewTransition>` animates Suspense reveals — default crossfade on the dashboard, `slide-up`/`slide-down` on other pages with `default="none"` to suppress unwanted update fades.
+
 ## Search params
 
 The activity page uses URL search params (`?type=`, `?q=`, `?limit=`) as the source of truth for filters, search, and pagination. Filter changes use `useOptimistic` + `startTransition` for instant UI feedback while the server re-renders.
