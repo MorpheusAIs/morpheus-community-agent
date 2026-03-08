@@ -1,5 +1,4 @@
 import { cache } from 'react';
-import { cacheLife } from 'next/cache';
 import { headers } from 'next/headers';
 import type {
   AnalyticsBucket,
@@ -72,9 +71,6 @@ export const getConversationDetail = cache(
 );
 
 async function fetchAnalyticsData(): Promise<AnalyticsData> {
-  'use cache: remote';
-  cacheLife('days');
-
   let actions: BotAction[];
   if (!isStoreConfigured()) {
     actions = [...mockActions].sort(

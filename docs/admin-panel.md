@@ -12,8 +12,6 @@ Client Component hooks like `usePathname` and `useSession` are isolated in their
 
 All data fetching lives in `data/queries/`. Every query enforces auth via `requireSession()` and is wrapped with React `cache()` to deduplicate calls within a request. Page components call a single composite query that handles fetching, authorization, and aggregation — the page receives exactly the data it needs to render. `cacheComponents` preserves the rendered component tree across client navigations via React Activity, so conversation previews opened on the activity page stay expanded when navigating back from a detail view.
 
-Analytics data uses `'use cache: remote'` with `cacheLife('days')` so time-series buckets are computed once per day.
-
 When Upstash Redis is not configured, queries fall back to `data/mock/` so the panel works without external services.
 
 ## Streaming

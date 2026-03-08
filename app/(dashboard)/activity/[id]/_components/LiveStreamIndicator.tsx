@@ -1,11 +1,24 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import { Bot, Loader2 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { useStream } from '@/hooks/use-streams';
 
 export function LiveStreamIndicator({ threadKey }: { threadKey: string }) {
   const { data: stream } = useStream(threadKey);
+  const router = useRouter();
+  const wasLive = useRef(false);
+
+  useEffect(() => {
+    if (stream) {
+      wasLive.current = true;
+    } else if (wasLive.current) {
+      wasLive.current = false;
+      router.refresh();
+    }
+  }, [stream, router]);
 
   if (!stream) return null;
 

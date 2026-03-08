@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import { Suspense, ViewTransition } from 'react';
 import { ArrowRight, BookOpen, ExternalLink, MessageSquare, TrendingUp } from 'lucide-react';
 import Link from 'next/link';
 import { Header } from '@/components/Header';
@@ -35,15 +35,39 @@ export default function OverviewPage() {
             </span>
           </div>
         )}
-        <Suspense fallback={<StatsCardsSkeleton />}>
-          <StatsCards />
+        <Suspense
+          fallback={
+            <ViewTransition>
+              <StatsCardsSkeleton />
+            </ViewTransition>
+          }
+        >
+          <ViewTransition>
+            <StatsCards />
+          </ViewTransition>
         </Suspense>
         <div className="grid gap-4 lg:grid-cols-[1fr_1fr]">
-          <Suspense fallback={<AnalyticsChartSkeleton />}>
-            <AnalyticsChartSection />
+          <Suspense
+            fallback={
+              <ViewTransition>
+                <AnalyticsChartSkeleton />
+              </ViewTransition>
+            }
+          >
+            <ViewTransition>
+              <AnalyticsChartSection />
+            </ViewTransition>
           </Suspense>
-          <Suspense fallback={<RecentActivitySkeleton />}>
-            <RecentActivityCard />
+          <Suspense
+            fallback={
+              <ViewTransition>
+                <RecentActivitySkeleton />
+              </ViewTransition>
+            }
+          >
+            <ViewTransition>
+              <RecentActivityCard />
+            </ViewTransition>
           </Suspense>
         </div>
       </div>

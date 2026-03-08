@@ -23,8 +23,16 @@ export default function ConversationPage({ params }: PageProps<'/activity/[id]'>
             <ArrowLeft className="mr-1 h-3 w-3" /> Activity
           </Link>
         </Button>
-        <Suspense fallback={<ConversationSkeleton />}>
-          <ConversationDetail params={params} />
+        <Suspense
+          fallback={
+            <ViewTransition exit="slide-down">
+              <ConversationSkeleton />
+            </ViewTransition>
+          }
+        >
+          <ViewTransition default="none" enter="slide-up">
+            <ConversationDetail params={params} />
+          </ViewTransition>
         </Suspense>
       </div>
     </>

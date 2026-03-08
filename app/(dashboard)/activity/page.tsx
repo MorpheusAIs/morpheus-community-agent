@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import { Suspense, ViewTransition } from 'react';
 import { after } from 'next/server';
 import { ExternalLink, MessageSquare } from 'lucide-react';
 import Link from 'next/link';
@@ -23,7 +23,6 @@ import { requireSession } from '@/data/queries/auth';
 import type { BotAction } from '@/lib/types';
 import { typeConfig } from '@/config/type-config';
 import { cn } from '@/lib/utils';
-import { ViewTransition } from 'react';
 
 export default function ActivityPage({ searchParams }: PageProps<'/activity'>) {
   return (
@@ -33,15 +32,31 @@ export default function ActivityPage({ searchParams }: PageProps<'/activity'>) {
         <ActiveStreamsProvider>
           <ActiveStreams />
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <Suspense fallback={<ActivityFiltersSkeleton />}>
-              <ActivityFiltersWithCounts />
+            <Suspense
+              fallback={
+                <ViewTransition exit="slide-down">
+                  <ActivityFiltersSkeleton />
+                </ViewTransition>
+              }
+            >
+              <ViewTransition default="none" enter="slide-up">
+                <ActivityFiltersWithCounts />
+              </ViewTransition>
             </Suspense>
             <Suspense>
               <ActivitySearch />
             </Suspense>
           </div>
-          <Suspense fallback={<ActivityListSkeleton />}>
-            <ActivityList searchParams={searchParams} />
+          <Suspense
+            fallback={
+              <ViewTransition exit="slide-down">
+                <ActivityListSkeleton />
+              </ViewTransition>
+            }
+          >
+            <ViewTransition default="none" enter="slide-up">
+              <ActivityList searchParams={searchParams} />
+            </ViewTransition>
           </Suspense>
         </ActiveStreamsProvider>
       </div>

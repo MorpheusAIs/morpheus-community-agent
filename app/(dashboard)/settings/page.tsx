@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import { Suspense, ViewTransition } from 'react';
 import { BookOpen, Bot, ExternalLink, Globe, Hash, MessageSquare } from 'lucide-react';
 import Link from 'next/link';
 import { Header } from '@/components/Header';
@@ -15,8 +15,16 @@ export default function SettingsPage() {
       <Header title="Settings" description="Bot configuration and channels" />
       <div className="flex-1 space-y-4 p-4">
         <ConfigSection />
-        <Suspense fallback={<ChannelsSkeleton />}>
-          <ChannelOverview />
+        <Suspense
+          fallback={
+            <ViewTransition exit="slide-down">
+              <ChannelsSkeleton />
+            </ViewTransition>
+          }
+        >
+          <ViewTransition default="none" enter="slide-up">
+            <ChannelOverview />
+          </ViewTransition>
         </Suspense>
       </div>
     </>
