@@ -13,7 +13,7 @@ export default function SettingsPage() {
   return (
     <>
       <Header title="Settings" description="Bot configuration and channels" />
-      <div className="flex-1 space-y-6 p-6">
+      <div className="flex-1 space-y-4 p-4">
         <ConfigSection />
         <Suspense fallback={<ChannelsSkeleton />}>
           <ChannelOverview />
@@ -52,14 +52,14 @@ function ConfigSection() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-base">Configuration</CardTitle>
+        <CardTitle className="text-sm">Configuration</CardTitle>
       </CardHeader>
       <CardContent>
         <dl className="divide-y">
           {items.map((item) => (
-            <div key={item.label} className="flex items-center gap-3 py-3 first:pt-0 last:pb-0">
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-muted">
-                <item.icon className="h-4 w-4 text-muted-foreground" />
+            <div key={item.label} className="flex items-center gap-2.5 py-2.5 first:pt-0 last:pb-0">
+              <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-muted">
+                <item.icon className="h-3.5 w-3.5 text-muted-foreground" />
               </div>
               <dt className="min-w-[120px] text-sm font-medium">{item.label}</dt>
               <dd className="min-w-0 flex-1 truncate text-sm text-muted-foreground">
@@ -96,7 +96,7 @@ async function ChannelOverview() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-base">Channels</CardTitle>
+        <CardTitle className="text-sm">Channels</CardTitle>
       </CardHeader>
       <CardContent>
         {channelEntries.length === 0 ? (
@@ -106,9 +106,9 @@ async function ChannelOverview() {
             {channelEntries.map(([key, ch]) => {
               const count = channelCounts[key] || 0;
               return (
-                <div key={key} className="flex items-start gap-3 py-3 first:pt-0 last:pb-0">
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-muted">
-                    <Hash className="h-4 w-4 text-muted-foreground" />
+                <div key={key} className="flex items-start gap-2.5 py-2.5 first:pt-0 last:pb-0">
+                  <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-muted">
+                    <Hash className="h-3.5 w-3.5 text-muted-foreground" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
@@ -154,8 +154,8 @@ function ChannelsSkeleton() {
       </CardHeader>
       <CardContent className="space-y-3">
         {[1, 2, 3, 4].map((i) => (
-          <div key={i} className="flex items-start gap-3">
-            <Skeleton className="h-8 w-8 shrink-0 rounded-md" />
+          <div key={i} className="flex items-start gap-2.5">
+            <Skeleton className="h-6 w-6 shrink-0 rounded-md" />
             <div className="flex-1 space-y-1">
               <Skeleton className="h-4 w-24" />
               <Skeleton className="h-3 w-48" />

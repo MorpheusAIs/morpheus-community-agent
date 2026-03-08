@@ -17,16 +17,16 @@ export default function ConversationError({ error, reset }: ErrorProps) {
   }, [error]);
 
   return (
-    <div className="p-6">
-      <Button variant="ghost" size="sm" className="mb-4" asChild>
+    <div className="p-4">
+      <Button variant="ghost" size="sm" className="mb-3" asChild>
         <Link href="/activity">
           <ArrowLeft className="mr-1 h-3 w-3" /> Activity
         </Link>
       </Button>
       <Card>
-        <CardContent className="flex flex-col items-center justify-center py-12 text-center">
-          <AlertCircle className="h-10 w-10 text-destructive/50" />
-          <h2 className="mt-4 text-lg font-medium">Failed to load conversation</h2>
+        <CardContent className="flex flex-col items-center justify-center py-8 text-center">
+          <AlertCircle className="h-8 w-8 text-destructive/50" />
+          <h2 className="mt-3 text-base font-medium">Failed to load conversation</h2>
           <p className="mt-1 max-w-sm text-sm text-muted-foreground">
             {error.message || 'Something went wrong while loading this conversation.'}
           </p>

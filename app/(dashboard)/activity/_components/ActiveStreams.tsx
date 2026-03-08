@@ -33,21 +33,21 @@ export function ActiveStreams() {
       <Card
         className={cn('gap-0 py-0', isActive ? 'border-success/20 bg-success/5' : 'border-dashed')}
       >
-        <CardContent className="flex items-center gap-3 py-2.5">
+        <CardContent className="flex items-center gap-2.5 py-2">
           <div
             className={cn(
-              'flex h-7 w-7 shrink-0 items-center justify-center rounded-full',
+              'flex h-6 w-6 shrink-0 items-center justify-center rounded-full',
               isActive ? 'bg-success/10' : 'bg-muted',
             )}
           >
             {isActive ? (
-              <Loader2 className="h-3.5 w-3.5 animate-spin text-success" />
+              <Loader2 className="h-3 w-3 animate-spin text-success" />
             ) : (
-              <Radio className="h-3.5 w-3.5 text-muted-foreground/40" />
+              <Radio className="h-3 w-3 text-muted-foreground/40" />
             )}
           </div>
           <div className="min-w-0 flex-1">
-            <p className="text-sm">
+            <p className="text-xs">
               {isActive
                 ? newStreams.length > 1
                   ? `Bot is responding to ${newStreams.length} conversations\u2026`

@@ -17,8 +17,8 @@ export default function ConversationPage({ params }: PageProps<'/activity/[id]'>
   return (
     <>
       <Header title="Conversation" description="Full conversation thread" />
-      <div className="flex-1 p-6">
-        <Button variant="ghost" size="sm" className="mb-4" asChild>
+      <div className="flex-1 p-4">
+        <Button variant="ghost" size="sm" className="mb-3" asChild>
           <Link href="/activity">
             <ArrowLeft className="mr-1 h-3 w-3" /> Activity
           </Link>
@@ -63,7 +63,7 @@ async function ConversationDetail({ params }: Pick<PageProps<'/activity/[id]'>, 
       </Card>
       {dmRestricted ? (
         <Card>
-          <CardContent className="flex items-center justify-center gap-3 py-8 text-muted-foreground">
+          <CardContent className="flex items-center justify-center gap-2.5 py-6 text-muted-foreground">
             <Lock className="h-4 w-4" />
             <span className="text-sm">
               DM conversations are only visible to the community lead.
@@ -72,7 +72,7 @@ async function ConversationDetail({ params }: Pick<PageProps<'/activity/[id]'>, 
         </Card>
       ) : messages.length === 0 ? (
         <Card>
-          <CardContent className="py-8 text-center text-sm text-muted-foreground">
+          <CardContent className="py-6 text-center text-sm text-muted-foreground">
             No conversation content available for this action.
           </CardContent>
         </Card>
@@ -81,11 +81,11 @@ async function ConversationDetail({ params }: Pick<PageProps<'/activity/[id]'>, 
           {messages.map((msg, i) => (
             <ViewTransition key={i}>
               <div className={cn('flex gap-3', msg.role === 'assistant' && 'flex-row-reverse')}>
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-muted">
+                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-muted">
                   {msg.role === 'user' ? (
-                    <User className="h-4 w-4 text-muted-foreground" />
+                    <User className="h-3.5 w-3.5 text-muted-foreground" />
                   ) : (
-                    <Bot className="h-4 w-4 text-muted-foreground" />
+                    <Bot className="h-3.5 w-3.5 text-muted-foreground" />
                   )}
                 </div>
                 <Card
@@ -130,20 +130,20 @@ function ConversationSkeleton() {
       </Card>
       <div className="space-y-3">
         <div className="flex items-start gap-3">
-          <Skeleton className="h-8 w-8 shrink-0 rounded-full" />
-          <Skeleton className="h-14 w-3/5 rounded-xl" />
+          <Skeleton className="h-7 w-7 shrink-0 rounded-full" />
+          <Skeleton className="h-12 w-3/5 rounded-xl" />
         </div>
         <div className="flex items-start flex-row-reverse gap-3">
-          <Skeleton className="h-8 w-8 shrink-0 rounded-full" />
-          <Skeleton className="h-20 w-3/5 rounded-xl" />
+          <Skeleton className="h-7 w-7 shrink-0 rounded-full" />
+          <Skeleton className="h-16 w-3/5 rounded-xl" />
         </div>
         <div className="flex items-start gap-3">
-          <Skeleton className="h-8 w-8 shrink-0 rounded-full" />
+          <Skeleton className="h-7 w-7 shrink-0 rounded-full" />
           <Skeleton className="h-10 w-2/5 rounded-xl" />
         </div>
         <div className="flex items-start flex-row-reverse gap-3">
-          <Skeleton className="h-8 w-8 shrink-0 rounded-full" />
-          <Skeleton className="h-16 w-3/5 rounded-xl" />
+          <Skeleton className="h-7 w-7 shrink-0 rounded-full" />
+          <Skeleton className="h-14 w-3/5 rounded-xl" />
         </div>
       </div>
     </div>

@@ -11,11 +11,11 @@ type HeaderProps = {
 
 export function Header({ title, description }: HeaderProps) {
   return (
-    <header className="flex flex-wrap items-center gap-3 px-4 py-3">
+    <header className="flex flex-wrap items-center gap-2 px-4 py-2">
       <SidebarTrigger />
       <div className="min-w-0 flex-1">
-        <h1 className="truncate text-lg font-semibold">{title}</h1>
-        {description && <p className="truncate text-sm text-muted-foreground">{description}</p>}
+        <h1 className="truncate text-base font-semibold">{title}</h1>
+        {description && <p className="truncate text-xs text-muted-foreground">{description}</p>}
       </div>
       <div className="flex items-center gap-2 sm:gap-3">
         {config.slackWorkspaceUrl && (

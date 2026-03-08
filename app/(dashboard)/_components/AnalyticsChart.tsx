@@ -81,16 +81,16 @@ export function AnalyticsChart({ data }: { data: DayBucket[] }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-base">Activity Trend</CardTitle>
+        <CardTitle className="text-sm">Activity Trend</CardTitle>
         <p className="text-xs text-muted-foreground">{subtitle}</p>
       </CardHeader>
       <CardContent>
         {!hasData ? (
-          <p className="py-8 text-center text-sm text-muted-foreground">
+          <p className="py-6 text-center text-sm text-muted-foreground">
             No activity recorded yet.
           </p>
         ) : (
-          <ResponsiveContainer width="100%" height={280}>
+          <ResponsiveContainer width="100%" height={240}>
             <AreaChart data={data} margin={{ top: 4, right: 4, bottom: 0, left: -20 }}>
               <defs>
                 {Object.entries(COLORS).map(([key, color]) => (

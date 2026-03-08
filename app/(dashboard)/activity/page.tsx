@@ -29,7 +29,7 @@ export default function ActivityPage({ searchParams }: PageProps<'/activity'>) {
   return (
     <>
       <Header title="Activity" description="Recent bot actions across your community" />
-      <div className="flex-1 space-y-4 p-6">
+      <div className="flex-1 space-y-3 p-4">
         <ActiveStreamsProvider>
           <ActiveStreams />
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -82,9 +82,9 @@ async function ActivityList({ searchParams }: Pick<PageProps<'/activity'>, 'sear
     const filterLabel = type ? typeConfig[type as BotAction['type']]?.label : null;
     const hasFilters = type || searchQuery;
     return (
-      <div className="flex flex-col items-center justify-center rounded-lg border border-dashed p-12 text-center">
-        <MessageSquare className="h-10 w-10 text-muted-foreground/50" />
-        <h3 className="mt-4 text-lg font-medium">
+      <div className="flex flex-col items-center justify-center rounded-lg border border-dashed p-8 text-center">
+        <MessageSquare className="h-8 w-8 text-muted-foreground/50" />
+        <h3 className="mt-3 text-base font-medium">
           {hasFilters ? 'No matching actions' : 'No activity yet'}
         </h3>
         <p className="mt-1 text-sm text-muted-foreground">
@@ -113,14 +113,14 @@ async function ActivityList({ searchParams }: Pick<PageProps<'/activity'>, 'sear
 
         const cardContent = (
           <Card className={isNew ? 'animate-new-glow' : ''}>
-            <CardContent className="flex items-start gap-3 py-3 sm:gap-4 sm:py-4">
+            <CardContent className="flex items-start gap-2.5 py-2.5 sm:gap-3 sm:py-3">
               <div
                 className={cn(
-                  'flex h-7 w-7 shrink-0 items-center justify-center rounded-full sm:h-9 sm:w-9',
+                  'flex h-6 w-6 shrink-0 items-center justify-center rounded-full sm:h-7 sm:w-7',
                   config.bgColor,
                 )}
               >
-                <Icon className={cn('h-3.5 w-3.5 sm:h-4 sm:w-4', config.iconColor)} />
+                <Icon className={cn('h-3 w-3 sm:h-3.5 sm:w-3.5', config.iconColor)} />
               </div>
               <div className="min-w-0 flex-1 space-y-1">
                 <p className="text-sm">{action.description}</p>
@@ -216,8 +216,8 @@ function ActivityListSkeleton() {
     <div className="space-y-3">
       {[1, 2, 3, 4, 5].map((i) => (
         <Card key={i}>
-          <CardContent className="flex items-start gap-3 py-3 sm:gap-4 sm:py-4">
-            <Skeleton className="h-7 w-7 shrink-0 rounded-full sm:h-9 sm:w-9" />
+          <CardContent className="flex items-start gap-2.5 py-2.5 sm:gap-3 sm:py-3">
+            <Skeleton className="h-6 w-6 shrink-0 rounded-full sm:h-7 sm:w-7" />
             <div className="flex-1 space-y-2.5">
               <Skeleton className="h-4 w-64" />
               <Skeleton className="h-3.5 w-36" />

@@ -1,7 +1,7 @@
 'use client';
 
 import { Suspense } from 'react';
-import { Bot, LayoutDashboard, Activity, BarChart3, Settings, LogOut } from 'lucide-react';
+import { Bot, LayoutDashboard, Activity, Settings, LogOut } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { authClient } from '@/lib/auth-client';
@@ -23,7 +23,6 @@ import {
 const navItems = [
   { href: '/' as const, label: 'Overview', icon: LayoutDashboard },
   { href: '/activity' as const, label: 'Activity', icon: Activity },
-  { href: '/analytics' as const, label: 'Analytics', icon: BarChart3 },
   { href: '/settings' as const, label: 'Settings', icon: Settings },
 ];
 
@@ -32,12 +31,12 @@ export function Sidebar({ communityName }: { communityName: string }) {
 
   return (
     <SidebarRoot>
-      <SidebarHeader className="px-4 py-[14px]">
+      <SidebarHeader className="px-3 py-3">
         <div className="flex items-center gap-2">
-          <Bot className="h-6 w-6" />
+          <Bot className="h-5 w-5" />
           <div className="min-w-0">
             <span className="block truncate text-sm font-semibold">{communityName}</span>
-            <span className="block text-xs text-muted-foreground">Admin Panel</span>
+            <span className="block text-[11px] text-muted-foreground">Admin Panel</span>
           </div>
         </div>
       </SidebarHeader>
@@ -106,14 +105,11 @@ function UserProfile() {
 
   return (
     <SidebarMenuItem>
-      <SidebarMenuButton
-        size="lg"
-        className="cursor-default hover:bg-transparent active:bg-transparent"
-      >
-        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-sidebar-accent text-xs font-medium">
+      <SidebarMenuButton className="cursor-default hover:bg-transparent active:bg-transparent">
+        <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-sidebar-accent text-[10px] font-medium">
           {session?.user?.name?.charAt(0)?.toUpperCase() || '?'}
         </div>
-        <span className="truncate font-medium">{session?.user?.name}</span>
+        <span className="truncate text-xs font-medium">{session?.user?.name}</span>
       </SidebarMenuButton>
     </SidebarMenuItem>
   );
@@ -122,9 +118,9 @@ function UserProfile() {
 function UserProfileSkeleton() {
   return (
     <SidebarMenuItem>
-      <SidebarMenuButton size="lg" className="cursor-default">
-        <Skeleton className="h-8 w-8 shrink-0 rounded-full" />
-        <Skeleton className="h-4 w-24" />
+      <SidebarMenuButton className="cursor-default">
+        <Skeleton className="h-6 w-6 shrink-0 rounded-full" />
+        <Skeleton className="h-3 w-20" />
       </SidebarMenuButton>
     </SidebarMenuItem>
   );

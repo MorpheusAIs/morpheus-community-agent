@@ -32,8 +32,7 @@ Color tokens are defined as CSS custom properties in oklch with light/dark varia
 
 | Page         | URL              | Description                                                     |
 | ------------ | ---------------- | --------------------------------------------------------------- |
-| Overview     | `/`              | Stats tiles, weekly trends, recent activity, live bot status    |
+| Overview     | `/`              | Stats, trends, activity chart, breakdown, and live bot status   |
 | Activity     | `/activity`      | Filterable timeline with search, pagination, and previews       |
 | Conversation | `/activity/[id]` | Full conversation thread with markdown rendering                |
-| Analytics    | `/analytics`     | Stacked area chart and breakdown by type                        |
 | Settings     | `/settings`      | Read-only config values and channel overview with action counts |

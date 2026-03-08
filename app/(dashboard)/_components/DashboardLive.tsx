@@ -22,7 +22,7 @@ export function DashboardLive() {
   return (
     <div
       className={cn(
-        'flex items-center gap-2 rounded-lg border px-4 py-2.5 text-sm',
+        'flex items-center gap-2 rounded-lg border px-3 py-2 text-xs',
         count > 0 ? 'border-success/20 bg-success/5' : 'border-dashed text-muted-foreground/50',
       )}
     >
