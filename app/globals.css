@@ -179,16 +179,36 @@
   animation: new-glow 30s ease-out forwards;
 }
 
-@keyframes fade-in { from { opacity: 0; } }
-@keyframes fade-out { to { opacity: 0; } }
-@keyframes slide-up { from { transform: translateY(6px); } }
-@keyframes slide-down { to { transform: translateY(6px); } }
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes slide-up {
+  from {
+    transform: translateY(6px);
+  }
+}
+@keyframes slide-down {
+  to {
+    transform: translateY(6px);
+  }
+}
 
 ::view-transition-old(.slide-down) {
-  animation: 150ms ease-out both fade-out, 150ms ease-out both slide-down;
+  animation:
+    150ms ease-out both fade-out,
+    150ms ease-out both slide-down;
 }
 ::view-transition-new(.slide-up) {
-  animation: 210ms ease-in 150ms both fade-in, 400ms ease-in both slide-up;
+  animation:
+    210ms ease-in 150ms both fade-in,
+    400ms ease-in both slide-up;
 }
 
 @keyframes number-roll {

@@ -31,7 +31,7 @@ export const getRecentActions = cache(async (): Promise<BotAction[]> => {
       (a, b) => (b.lastUpdated ?? b.timestamp) - (a.lastUpdated ?? a.timestamp),
     );
   }
-  return storeGetRecentActions();
+  return storeGetRecentActions(500);
 });
 
 export const getActionById = cache(async (id: string): Promise<BotAction | null> => {
@@ -78,7 +78,7 @@ async function fetchAnalyticsData(): Promise<AnalyticsData> {
       (a, b) => (b.lastUpdated ?? b.timestamp) - (a.lastUpdated ?? a.timestamp),
     );
   } else {
-    actions = await storeGetRecentActions();
+    actions = await storeGetRecentActions(500);
   }
 
   const dayMs = 24 * 60 * 60 * 1000;
@@ -147,16 +147,31 @@ export const getDashboardStats = cache(async (): Promise<DashboardStats> => {
 });
 
 export const getActionCounts = cache(async (): Promise<Record<string, number>> => {
-  const actions = await getRecentActions();
-  const counts: Record<string, number> = { all: actions.length };
-  for (const action of actions) {
-    counts[action.type] = (counts[action.type] || 0) + 1;
-  }
-  return counts;
+  await requireSession();
+  const stats = await storeGetStats();
+  return {
+    all: stats.total,
+    answered: stats.answered,
+    routed: stats.routed,
+    welcomed: stats.welcomed,
+    surfaced: stats.surfaced,
+    flagged: stats.flagged,
+  };
 });
 
 export const getChannelCounts = cache(async (): Promise<Record<string, number>> => {
-  const actions = await getRecentActions();
+  await requireSession();
+  if (!isStoreConfigured()) {
+    const counts: Record<string, number> = {};
+    for (const action of mockActions) {
+      if (action.channel) {
+        const name = action.channel.replace(/^#/, '');
+        counts[name] = (counts[name] || 0) + 1;
+      }
+    }
+    return counts;
+  }
+  const actions = await storeGetRecentActions(500);
   const counts: Record<string, number> = {};
   for (const action of actions) {
     if (action.channel) {
