@@ -1,6 +1,7 @@
 'use client';
 
 import type { ReactNode } from 'react';
+import { Loader2 } from 'lucide-react';
 import { useActiveStreams } from './ActiveStreamsContext';
 
 export function ActivityCardGlow({
@@ -16,8 +17,12 @@ export function ActivityCardGlow({
   if (!isActive) return children;
 
   return (
-    <div className="rounded-xl ring-2 ring-green-500/40 [&_[data-slot=card]]:border-transparent [&_[data-slot=card]]:bg-green-500/5">
+    <div className="relative rounded-xl ring-2 ring-success/40 [&_[data-slot=card]]:border-transparent [&_[data-slot=card]]:bg-success/5">
       {children}
+      <div className="absolute top-2 right-3 flex items-center gap-1 rounded-full bg-success/10 px-2 py-0.5 text-[11px] text-success">
+        <Loader2 className="h-3 w-3 animate-spin" />
+        Responding
+      </div>
     </div>
   );
 }

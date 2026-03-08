@@ -1,9 +1,9 @@
 'use client';
 
 import {
+  Area,
+  AreaChart,
   CartesianGrid,
-  Line,
-  LineChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -20,12 +20,14 @@ type DayBucket = {
   flagged: number;
 };
 
+const STACK_ORDER = ['flagged', 'surfaced', 'welcomed', 'routed', 'answered'] as const;
+
 const COLORS: Record<string, string> = {
-  answered: '#3b82f6',
-  routed: '#f97316',
-  welcomed: '#22c55e',
-  surfaced: '#a855f7',
-  flagged: '#ef4444',
+  answered: 'var(--type-answered)',
+  routed: 'var(--type-routed)',
+  welcomed: 'var(--type-welcomed)',
+  surfaced: 'var(--type-surfaced)',
+  flagged: 'var(--type-flagged)',
 };
 
 const LABELS: Record<string, string> = {
@@ -65,18 +67,16 @@ function CustomTooltip({
             {LABELS[entry.dataKey]}: {entry.value}
           </div>
         ))}
+      <div className="mt-1 border-t pt-1 text-xs font-medium">Total: {total}</div>
     </div>
   );
 }
 
 export function AnalyticsChart({ data }: { data: DayBucket[] }) {
-  const hasData = data.some(
-    (d) => d.answered + d.routed + d.welcomed + d.surfaced + d.flagged > 0,
-  );
+  const hasData = data.some((d) => d.answered + d.routed + d.welcomed + d.surfaced + d.flagged > 0);
 
   const days = data.length;
-  const subtitle =
-    days <= 1 ? 'Today' : `Last ${days} day${days === 1 ? '' : 's'}`;
+  const subtitle = days <= 1 ? 'Today' : `Last ${days} day${days === 1 ? '' : 's'}`;
 
   return (
     <Card>
@@ -91,8 +91,16 @@ export function AnalyticsChart({ data }: { data: DayBucket[] }) {
           </p>
         ) : (
           <ResponsiveContainer width="100%" height={280}>
-            <LineChart data={data} margin={{ top: 4, right: 4, bottom: 0, left: -20 }}>
-              <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
+            <AreaChart data={data} margin={{ top: 4, right: 4, bottom: 0, left: -20 }}>
+              <defs>
+                {Object.entries(COLORS).map(([key, color]) => (
+                  <linearGradient key={key} id={`grad-${key}`} x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor={color} stopOpacity={0.4} />
+                    <stop offset="100%" stopColor={color} stopOpacity={0.05} />
+                  </linearGradient>
+                ))}
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" vertical={false} className="stroke-border" />
               <XAxis
                 dataKey="date"
                 tick={{ fontSize: 11 }}
@@ -108,18 +116,18 @@ export function AnalyticsChart({ data }: { data: DayBucket[] }) {
                 axisLine={false}
               />
               <Tooltip content={<CustomTooltip />} />
-              {Object.entries(COLORS).map(([key, color]) => (
-                <Line
+              {STACK_ORDER.map((key) => (
+                <Area
                   key={key}
                   type="monotone"
                   dataKey={key}
-                  stroke={color}
-                  strokeWidth={2}
-                  dot={false}
-                  activeDot={{ r: 4, strokeWidth: 0 }}
+                  stackId="actions"
+                  stroke={COLORS[key]}
+                  strokeWidth={1.5}
+                  fill={`url(#grad-${key})`}
                 />
               ))}
-            </LineChart>
+            </AreaChart>
           </ResponsiveContainer>
         )}
       </CardContent>

@@ -7,11 +7,11 @@ import { cn } from '@/lib/utils';
 
 const filters = [
   { value: 'all', label: 'All', color: null },
-  { value: 'answered', label: 'Answered', color: 'bg-blue-500' },
-  { value: 'routed', label: 'Routed', color: 'bg-orange-500' },
-  { value: 'welcomed', label: 'Welcomed', color: 'bg-green-500' },
-  { value: 'surfaced', label: 'Surfaced', color: 'bg-purple-500' },
-  { value: 'flagged', label: 'Flagged', color: 'bg-red-500' },
+  { value: 'answered', label: 'Answered', color: 'bg-type-answered' },
+  { value: 'routed', label: 'Routed', color: 'bg-type-routed' },
+  { value: 'welcomed', label: 'Welcomed', color: 'bg-type-welcomed' },
+  { value: 'surfaced', label: 'Surfaced', color: 'bg-type-surfaced' },
+  { value: 'flagged', label: 'Flagged', color: 'bg-type-flagged' },
 ] as const;
 
 type ActivityFiltersProps = {

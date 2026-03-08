@@ -35,36 +35,36 @@ const typeConfig: Record<
     icon: MessageSquare,
     label: 'Answered',
     variant: 'default',
-    iconColor: 'text-blue-500',
-    bgColor: 'bg-blue-500/10',
+    iconColor: 'text-type-answered',
+    bgColor: 'bg-type-answered/10',
   },
   routed: {
     icon: ArrowRightLeft,
     label: 'Routed',
     variant: 'outline',
-    iconColor: 'text-orange-500',
-    bgColor: 'bg-orange-500/10',
+    iconColor: 'text-type-routed',
+    bgColor: 'bg-type-routed/10',
   },
   welcomed: {
     icon: UserPlus,
     label: 'Welcomed',
     variant: 'secondary',
-    iconColor: 'text-green-500',
-    bgColor: 'bg-green-500/10',
+    iconColor: 'text-type-welcomed',
+    bgColor: 'bg-type-welcomed/10',
   },
   surfaced: {
     icon: Search,
     label: 'Surfaced',
     variant: 'outline',
-    iconColor: 'text-purple-500',
-    bgColor: 'bg-purple-500/10',
+    iconColor: 'text-type-surfaced',
+    bgColor: 'bg-type-surfaced/10',
   },
   flagged: {
     icon: AlertTriangle,
     label: 'Flagged',
     variant: 'destructive',
-    iconColor: 'text-red-500',
-    bgColor: 'bg-red-500/10',
+    iconColor: 'text-type-flagged',
+    bgColor: 'bg-type-flagged/10',
   },
 };
 
@@ -75,15 +75,15 @@ export default function OverviewPage() {
       <div className="flex-1 space-y-6 p-6">
         <DashboardLive />
         {config.savoirApiUrl && (
-          <div className="flex items-center gap-2 rounded-lg border border-blue-500/20 bg-blue-500/5 px-4 py-2.5 text-sm">
-            <BookOpen className="h-3.5 w-3.5 text-blue-500" />
+          <div className="flex items-center gap-2 rounded-lg border border-info/20 bg-info/5 px-4 py-2.5 text-sm">
+            <BookOpen className="h-3.5 w-3.5 text-info" />
             <span>
               Knowledge base:{' '}
               <a
                 href={config.savoirApiUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-medium text-blue-600 hover:underline dark:text-blue-400"
+                className="font-medium text-info hover:underline"
               >
                 {config.savoirApiUrl.replace(/^https?:\/\//, '')}
                 <ExternalLink className="ml-1 inline h-3 w-3" />
@@ -175,7 +175,7 @@ async function StatsCards() {
               <CardContent className="px-3 sm:px-4">
                 <div className="text-2xl font-bold">{stat.value}</div>
                 {stat.weekly > 0 ? (
-                  <p className="hidden items-center gap-1 text-xs text-emerald-600 sm:flex dark:text-emerald-400">
+                  <p className="hidden items-center gap-1 text-xs text-success sm:flex">
                     <TrendingUp className="h-3 w-3" />+{stat.weekly} this week
                   </p>
                 ) : (
@@ -201,7 +201,7 @@ async function StatsCards() {
           <CardContent className="px-3 sm:px-4">
             <div className="text-2xl font-bold">{String(counts.total)}</div>
             {thisWeek.total > 0 ? (
-              <p className="hidden items-center gap-1 text-xs text-emerald-600 sm:flex dark:text-emerald-400">
+              <p className="hidden items-center gap-1 text-xs text-success sm:flex">
                 <TrendingUp className="h-3 w-3" />+{thisWeek.total} this week
               </p>
             ) : (
@@ -309,4 +309,3 @@ function StatsCardsSkeleton() {
     </div>
   );
 }
-

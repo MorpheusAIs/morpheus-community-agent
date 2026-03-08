@@ -30,8 +30,10 @@ export function ConversationPreviewProvider({
     if (!isOpen && !messages) {
       startTransition(async () => {
         const result = await fetchConversationPreview(actionId);
-        setMessages(result);
-        setIsOpen(true);
+        startTransition(() => {
+          setMessages(result);
+          setIsOpen(true);
+        });
       });
     } else {
       setIsOpen(!isOpen);
@@ -81,7 +83,7 @@ export function ConversationPreviewContent() {
             <span
               className={cn(
                 'shrink-0 font-medium',
-                msg.role === 'assistant' ? 'text-blue-600 dark:text-blue-400' : 'text-foreground',
+                msg.role === 'assistant' ? 'text-info' : 'text-foreground',
               )}
             >
               {msg.role === 'assistant' ? 'Bot' : 'User'}

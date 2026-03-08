@@ -1,11 +1,5 @@
 import { Suspense } from 'react';
-import {
-  AlertTriangle,
-  ArrowRightLeft,
-  MessageSquare,
-  Search,
-  UserPlus,
-} from 'lucide-react';
+import { AlertTriangle, ArrowRightLeft, MessageSquare, Search, UserPlus } from 'lucide-react';
 import { Header } from '@/components/Header';
 import { AnalyticsChart } from './_components/AnalyticsChart';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -20,32 +14,32 @@ const typeConfig: Record<
   answered: {
     icon: MessageSquare,
     label: 'Answered',
-    color: 'text-blue-500',
-    bgColor: 'bg-blue-500/10',
+    color: 'text-type-answered',
+    bgColor: 'bg-type-answered/10',
   },
   routed: {
     icon: ArrowRightLeft,
     label: 'Routed',
-    color: 'text-orange-500',
-    bgColor: 'bg-orange-500/10',
+    color: 'text-type-routed',
+    bgColor: 'bg-type-routed/10',
   },
   welcomed: {
     icon: UserPlus,
     label: 'Welcomed',
-    color: 'text-green-500',
-    bgColor: 'bg-green-500/10',
+    color: 'text-type-welcomed',
+    bgColor: 'bg-type-welcomed/10',
   },
   surfaced: {
     icon: Search,
     label: 'Surfaced',
-    color: 'text-purple-500',
-    bgColor: 'bg-purple-500/10',
+    color: 'text-type-surfaced',
+    bgColor: 'bg-type-surfaced/10',
   },
   flagged: {
     icon: AlertTriangle,
     label: 'Flagged',
-    color: 'text-red-500',
-    bgColor: 'bg-red-500/10',
+    color: 'text-type-flagged',
+    bgColor: 'bg-type-flagged/10',
   },
 };
 
@@ -98,16 +92,7 @@ async function AnalyticsContent() {
                         className="h-full rounded-full transition-all"
                         style={{
                           width: `${pct}%`,
-                          backgroundColor:
-                            type === 'answered'
-                              ? '#3b82f6'
-                              : type === 'routed'
-                                ? '#f97316'
-                                : type === 'welcomed'
-                                  ? '#22c55e'
-                                  : type === 'surfaced'
-                                    ? '#a855f7'
-                                    : '#ef4444',
+                          backgroundColor: `var(--type-${type})`,
                         }}
                       />
                     </div>

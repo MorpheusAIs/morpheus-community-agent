@@ -38,30 +38,26 @@ export function DashboardLive() {
     <div
       className={cn(
         'flex items-center gap-2 rounded-lg border px-4 py-2.5 text-sm',
-        count > 0
-          ? 'border-green-500/20 bg-green-500/5'
-          : 'border-dashed text-muted-foreground/50',
+        count > 0 ? 'border-success/20 bg-success/5' : 'border-dashed text-muted-foreground/50',
       )}
     >
       <Radio
         className={cn(
           'h-3.5 w-3.5',
-          count > 0 ? 'animate-pulse text-green-500' : 'text-muted-foreground/30',
+          count > 0 ? 'animate-pulse text-success' : 'text-muted-foreground/30',
         )}
       />
       {count > 0 ? (
         <span>
           Bot is handling{' '}
-          <span className="font-medium text-green-600">
+          <span className="font-medium text-success">
             {count} {count === 1 ? 'conversation' : 'conversations'}
           </span>
         </span>
       ) : (
         <span>Bot is idle</span>
       )}
-      {count > 0 && (
-        <Loader2 className="ml-auto h-3.5 w-3.5 animate-spin text-green-500" />
-      )}
+      {count > 0 && <Loader2 className="ml-auto h-3.5 w-3.5 animate-spin text-success" />}
     </div>
   );
 }

@@ -90,9 +90,7 @@ async function fetchAnalyticsData(): Promise<AnalyticsData> {
   }
 
   const todayStart = startOfDay(now);
-  const earliest = actions.length > 0
-    ? Math.min(...actions.map((a) => a.timestamp))
-    : now;
+  const earliest = actions.length > 0 ? Math.min(...actions.map((a) => a.timestamp)) : now;
   const earliestDayStart = startOfDay(earliest);
   const spanDays = Math.max(Math.round((todayStart - earliestDayStart) / dayMs) + 1, 2);
 
@@ -101,7 +99,7 @@ async function fetchAnalyticsData(): Promise<AnalyticsData> {
   for (let i = 0; i < spanDays; i++) {
     const d = new Date(earliestDayStart + i * dayMs);
     buckets.push({
-      date: `${d.getMonth() + 1}/${d.getDate()}`,
+      date: d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }),
       answered: 0,
       routed: 0,
       welcomed: 0,

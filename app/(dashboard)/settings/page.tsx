@@ -1,12 +1,5 @@
 import { Suspense } from 'react';
-import {
-  BookOpen,
-  Bot,
-  ExternalLink,
-  Globe,
-  Hash,
-  MessageSquare,
-} from 'lucide-react';
+import { BookOpen, Bot, ExternalLink, Globe, Hash, MessageSquare } from 'lucide-react';
 import Link from 'next/link';
 import { Header } from '@/components/Header';
 import { Badge } from '@/components/ui/badge';
@@ -46,18 +39,13 @@ function ConfigSection() {
     {
       icon: BookOpen,
       label: 'Knowledge Base',
-      value: config.savoirApiUrl
-        ? config.savoirApiUrl.replace(/^https?:\/\//, '')
-        : null,
+      value: config.savoirApiUrl ? config.savoirApiUrl.replace(/^https?:\/\//, '') : null,
       href: config.savoirApiUrl || undefined,
     },
     {
       icon: Globe,
       label: 'Search Domains',
-      value:
-        config.searchDomains.length > 0
-          ? config.searchDomains.join(', ')
-          : null,
+      value: config.searchDomains.length > 0 ? config.searchDomains.join(', ') : null,
     },
   ];
 
@@ -69,10 +57,7 @@ function ConfigSection() {
       <CardContent>
         <dl className="divide-y">
           {items.map((item) => (
-            <div
-              key={item.label}
-              className="flex items-center gap-3 py-3 first:pt-0 last:pb-0"
-            >
+            <div key={item.label} className="flex items-center gap-3 py-3 first:pt-0 last:pb-0">
               <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-muted">
                 <item.icon className="h-4 w-4 text-muted-foreground" />
               </div>
@@ -84,7 +69,7 @@ function ConfigSection() {
                       href={item.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-600 hover:underline dark:text-blue-400"
+                      className="text-info hover:underline"
                     >
                       {item.value}
                       <ExternalLink className="ml-1 inline h-3 w-3" />
