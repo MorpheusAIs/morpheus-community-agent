@@ -26,7 +26,7 @@ The `(dashboard)` route group wraps authenticated pages in the sidebar layout wi
 
 ## Rendering
 
-Pages are non-async. They render a static shell (header, sidebar, layout) immediately and delegate data fetching to async Server Components wrapped in `<Suspense>` boundaries with skeleton fallbacks. `cacheComponents` and React Compiler are both enabled.
+`cacheComponents` enables Partial Prerendering (PPR). The static shell—headers, sidebar, layout—is prerendered at build time and served instantly, while async Server Components wrapped in `<Suspense>` stream in at request time with skeleton fallbacks.
 
 Client Component hooks like `usePathname` and `useSession` are isolated in their own `<Suspense>`-wrapped components so they don't force the parent into dynamic rendering.
 
@@ -38,8 +38,6 @@ All data fetching lives in `data/queries/`. Every query:
 - Deduplicates within a request via React `cache()`
 - Returns exactly the data the page needs to render
 
-`cacheComponents` preserves the rendered component tree across client navigations via React Activity. Conversation previews opened on the activity page stay expanded when you navigate back from a detail view.
-
 Without Upstash Redis, queries fall back to `data/mock/` so the panel works without external services.
 
 ## Streaming
@@ -50,6 +48,7 @@ SWR handles deduplication, `keepPreviousData` to prevent flicker, and `revalidat
 
 ## Async React patterns
 
+- **`use()`**—when a Server Component would just fetch data and forward it to a single Client Component, the page calls the query without `await` and passes the resulting promise as a prop. The Client Component unwraps it with `use()`, avoiding a wrapper component. Used for the analytics chart and activity filter counts
 - **`<ViewTransition>`**—animates Suspense reveals. Default crossfade on the dashboard, `slide-up`/`slide-down` on detail pages with `default="none"` to suppress unwanted update fades. Custom `@keyframes` defined in `globals.css`
 - **`useTransition`**—activity filters, search, pagination, and conversation preview toggle wrap state updates in transitions to keep the UI responsive and activate ViewTransition animations
 - **`useOptimistic`**—activity filters highlight the selected type instantly while the server re-renders the filtered list

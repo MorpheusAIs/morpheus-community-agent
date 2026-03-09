@@ -1,6 +1,6 @@
 'use client';
 
-import { useOptimistic, useTransition } from 'react';
+import { use, useOptimistic, useTransition } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { cn } from '@/lib/utils';
@@ -15,10 +15,11 @@ const filters = [
 ] as const;
 
 type ActivityFiltersProps = {
-  counts?: Record<string, number>;
+  countsPromise: Promise<Record<string, number>>;
 };
 
-export function ActivityFilters({ counts }: ActivityFiltersProps) {
+export function ActivityFilters({ countsPromise }: ActivityFiltersProps) {
+  const counts = use(countsPromise);
   const router = useRouter();
   const searchParams = useSearchParams();
   const currentType = searchParams.get('type') || 'all';

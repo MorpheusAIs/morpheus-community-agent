@@ -1,5 +1,6 @@
 'use client';
 
+import { use } from 'react';
 import {
   Area,
   AreaChart,
@@ -11,6 +12,7 @@ import {
 } from 'recharts';
 import { TrendingUp } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import type { AnalyticsData } from '@/lib/types';
 
 type DayBucket = {
   date: string;
@@ -73,7 +75,8 @@ function CustomTooltip({
   );
 }
 
-export function AnalyticsChart({ data }: { data: DayBucket[] }) {
+export function AnalyticsChart({ dataPromise }: { dataPromise: Promise<AnalyticsData> }) {
+  const { buckets: data } = use(dataPromise);
   const hasData = data.some((d) => d.answered + d.routed + d.welcomed + d.surfaced + d.flagged > 0);
 
   const days = data.length;

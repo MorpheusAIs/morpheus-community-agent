@@ -14,6 +14,8 @@ import { typeConfig } from '@/config/type-config';
 import { AnimatedNumber } from '@/components/AnimatedNumber';
 
 export default function OverviewPage() {
+  const analyticsPromise = getAnalyticsData();
+
   return (
     <>
       <Header title="Overview" description={`${config.communityName} dashboard`} />
@@ -56,7 +58,7 @@ export default function OverviewPage() {
             }
           >
             <ViewTransition>
-              <AnalyticsChartSection />
+              <AnalyticsChart dataPromise={analyticsPromise} />
             </ViewTransition>
           </Suspense>
           <Suspense
@@ -229,11 +231,6 @@ async function RecentActivityCard() {
       </CardContent>
     </Card>
   );
-}
-
-async function AnalyticsChartSection() {
-  const { buckets } = await getAnalyticsData();
-  return <AnalyticsChart data={buckets} />;
 }
 
 function RecentActivitySkeleton() {

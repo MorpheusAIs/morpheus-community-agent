@@ -25,6 +25,8 @@ import { typeConfig } from '@/config/type-config';
 import { cn } from '@/lib/utils';
 
 export default function ActivityPage({ searchParams }: PageProps<'/activity'>) {
+  const countsPromise = getActionCounts();
+
   return (
     <>
       <Header title="Activity" description="Recent bot actions across your community" />
@@ -34,13 +36,13 @@ export default function ActivityPage({ searchParams }: PageProps<'/activity'>) {
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <Suspense
               fallback={
-                <ViewTransition exit="slide-down">
+                <ViewTransition>
                   <ActivityFiltersSkeleton />
                 </ViewTransition>
               }
             >
-              <ViewTransition default="none" enter="slide-up">
-                <ActivityFiltersWithCounts />
+              <ViewTransition>
+                <ActivityFilters countsPromise={countsPromise} />
               </ViewTransition>
             </Suspense>
             <Suspense fallback={<Skeleton className="h-8 w-48" />}>
@@ -205,11 +207,6 @@ async function ActivityList({ searchParams }: Pick<PageProps<'/activity'>, 'sear
       />
     </div>
   );
-}
-
-async function ActivityFiltersWithCounts() {
-  const counts = await getActionCounts();
-  return <ActivityFilters counts={counts} />;
 }
 
 function ActivityFiltersSkeleton() {
