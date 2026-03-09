@@ -1,8 +1,8 @@
 import { Suspense, ViewTransition } from 'react';
 import { connection } from 'next/server';
-import { ArrowLeft, Bot, ExternalLink, Lock, MessageSquare, User } from 'lucide-react';
-import Link from 'next/link';
+import { Bot, ExternalLink, Lock, MessageSquare, User } from 'lucide-react';
 import { notFound } from 'next/navigation';
+import { BackButton } from '@/components/BackButton';
 import Markdown from 'react-markdown';
 import { Header } from '@/components/Header';
 import { FormattedTime } from '@/components/FormattedTime';
@@ -18,11 +18,7 @@ export default function ConversationPage({ params }: PageProps<'/activity/[id]'>
     <>
       <Header title="Conversation" description="Full conversation thread" />
       <div className="flex-1 space-y-4 p-4">
-        <Button variant="ghost" size="sm" asChild>
-          <Link href="/activity">
-            <ArrowLeft className="mr-1 h-3 w-3" /> Activity
-          </Link>
-        </Button>
+        <BackButton fallbackHref="/activity">Activity</BackButton>
         <Suspense
           fallback={
             <ViewTransition>

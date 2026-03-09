@@ -2,6 +2,28 @@
 
 Server-rendered Next.js dashboard with real-time visibility into bot activity. Slack OAuth via Better Auth restricts access to workspace members. For the bot and workflow architecture, see [Architecture](architecture.md).
 
+## Route structure
+
+```
+app/
+  layout.tsx              ← root layout (fonts, theme, providers)
+  not-found.tsx           ← global 404
+  sign-in/page.tsx        ← Slack OAuth sign-in (no sidebar)
+  (dashboard)/
+    layout.tsx            ← sidebar layout (SidebarProvider + Sidebar)
+    page.tsx              ← overview
+    activity/page.tsx     ← activity feed
+    activity/[id]/page.tsx← conversation detail
+    settings/page.tsx     ← bot config + channels
+  api/
+    slack/route.ts        ← Slack webhook entry point
+    streams/route.ts      ← active streams (polled by SWR)
+    streams/[threadKey]/  ← single stream lookup
+    test-action/route.ts  ← simulate actions for testing
+```
+
+The `(dashboard)` route group wraps authenticated pages in the sidebar layout without affecting the sign-in page.
+
 ## Rendering
 
 Pages are non-async. They render a static shell (header, sidebar, layout) immediately and delegate data fetching to async Server Components wrapped in `<Suspense>` boundaries with skeleton fallbacks. `cacheComponents` and React Compiler are both enabled.
