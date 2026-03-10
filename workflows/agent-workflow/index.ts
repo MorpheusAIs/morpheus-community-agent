@@ -67,6 +67,9 @@ export async function workflowAgent(input: AgentInput): Promise<AgentResult> {
             ],
           },
         } satisfies AnthropicLanguageModelOptions,
+        gateway: {
+          caching: 'auto',
+        },
       },
     });
 
