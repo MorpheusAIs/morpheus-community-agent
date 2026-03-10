@@ -5,6 +5,13 @@
     "ultracite/biome/react",
     "ultracite/biome/next"
   ],
+  "linter": {
+    "rules": {
+      "complexity": {
+        "noExcessiveCognitiveComplexity": "off"
+      }
+    }
+  },
   "files": {
     "includes": [
       "**/*",
