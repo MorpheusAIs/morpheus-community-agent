@@ -9,6 +9,8 @@ import { authClient } from "@/lib/auth-client";
 const oauthErrorMessages: Record<string, string> = {
   access_denied:
     "Sign-in was denied. You may not have access to this workspace.",
+  invalid_team_for_non_distributed_app:
+    "You must be signed into the correct Slack workspace first.",
   invalid_request: "The sign-in request was invalid. Please try again.",
   server_error: "Slack encountered an error. Please try again later.",
   temporarily_unavailable:
