@@ -1,7 +1,10 @@
+import { generateText, stepCountIs } from 'ai';
 import { z } from 'zod';
+import { anthropic } from '@/lib/ai';
 import { channels } from '@/lib/channels';
 import { config } from '@/lib/config';
 import { createSavoirClient } from '@/lib/savoir';
+import { getSlackClient } from '@/lib/slack';
 import { logAction } from '@/lib/store';
 
 const deferLoading = {
@@ -21,7 +24,6 @@ export function setSlackContext(slack: { channelId: string; threadTs: string } |
 async function updateStatus(status: string) {
   if (!currentSlack) return;
   try {
-    const { getSlackClient } = await import('@/lib/slack');
     await getSlackClient().apiCall('assistant.threads.setStatus', {
       channel_id: currentSlack.channelId,
       thread_ts: currentSlack.threadTs,
@@ -81,9 +83,6 @@ async function executeBashBatch({ commands }: { commands: string[] }) {
 async function executeWebSearch({ query }: { query: string }) {
   'use step';
   await updateStatus('searching the web...');
-
-  const { generateText, stepCountIs } = await import('ai');
-  const { anthropic } = await import('@/lib/ai');
 
   const modelId = config.model.replace(/^anthropic\//, '');
   const result = await generateText({
@@ -178,7 +177,6 @@ async function executeUnanswered({ channel, hours = 24 }: { channel: string; hou
 
   const parsed = parseChannelInput(channel);
   const isChannelId = /^[A-Z0-9]+$/.test(parsed) && parsed.startsWith('C');
-  const { getSlackClient } = await import('@/lib/slack');
   const slack = getSlackClient();
 
   let channelId: string;
@@ -284,7 +282,6 @@ async function executeFlagToLead({
     };
   }
 
-  const { getSlackClient } = await import('@/lib/slack');
   const slack = getSlackClient();
 
   const message = [
