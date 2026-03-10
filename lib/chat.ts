@@ -29,7 +29,7 @@ function parseThreadId(threadId: string): { channelId: string; threadTs: string 
 }
 
 async function handleMessage(thread: Thread, message?: Message): Promise<void> {
-  await thread.startTyping();
+  await thread.startTyping('is thinking...');
 
   const threadInfo = parseThreadId(thread.id);
   if (!threadInfo) {
