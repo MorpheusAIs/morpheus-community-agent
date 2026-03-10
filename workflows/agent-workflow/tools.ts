@@ -64,8 +64,9 @@ async function executeWebSearch({ query }: { query: string }) {
   const { generateText, stepCountIs } = await import('ai');
   const { anthropic } = await import('@/lib/ai');
 
+  const modelId = config.model.replace(/^anthropic\//, '');
   const result = await generateText({
-    model: anthropic('claude-sonnet-4-20250514'),
+    model: anthropic(modelId),
     tools: {
       webSearch: anthropic.tools.webSearch_20250305({
         ...(config.searchDomains.length > 0 ? { allowedDomains: config.searchDomains } : {}),
