@@ -1,11 +1,68 @@
 import { Chat, ConsoleLogger } from 'chat';
-import type { Thread, Message } from 'chat';
 import { createSlackAdapter } from '@chat-adapter/slack';
 import { createRedisState } from '@chat-adapter/state-redis';
 import { workflowAgent } from '@/workflows/agent-workflow';
+import { getSlackClient } from '@/lib/slack';
 import { start } from 'workflow/api';
 
 const logger = new ConsoleLogger('info');
+
+const slackClient = getSlackClient();
+
+/** Thread IDs follow the format: "slack:CHANNEL_ID:THREAD_TS" */
+function parseThreadId(threadId: string): { channelId: string; threadTs: string } | null {
+  const parts = threadId.split(':');
+  if (parts.length >= 3 && parts[0] === 'slack') {
+    return { channelId: parts[1], threadTs: parts[2] };
+  }
+  return null;
+}
+
+/** Excludes bot's own messages and strips the latest message (passed separately as the prompt). */
+async function fetchThreadHistory(
+  channelId: string,
+  threadTs: string,
+): Promise<Array<{ role: 'user' | 'assistant'; content: string }>> {
+  try {
+    const result = await slackClient.conversations.replies({
+      channel: channelId,
+      ts: threadTs,
+      limit: 100, // Reasonable limit for context
+    });
+
+    if (!result.messages) return [];
+
+    const authResult = await slackClient.auth.test();
+    const botUserId = authResult.user_id;
+
+    const messages = result.messages.slice(0, -1);
+
+    return messages
+      .filter((msg) => msg.text && !('subtype' in msg))
+      .map((msg) => ({
+        role: (msg.user === botUserId ? 'assistant' : 'user') as 'user' | 'assistant',
+        content: msg.text!,
+      }));
+  } catch (error) {
+    logger.error('Failed to fetch thread history', { error: String(error) });
+    return [];
+  }
+}
+
+async function setThinkingStatus(threadId: string): Promise<void> {
+  const threadInfo = parseThreadId(threadId);
+  if (threadInfo) {
+    try {
+      await slackClient.apiCall('assistant.threads.setStatus', {
+        channel_id: threadInfo.channelId,
+        thread_ts: threadInfo.threadTs,
+        status: 'is thinking...',
+      });
+    } catch (error) {
+      logger.error('Failed to set assistant status', { error: String(error) });
+    }
+  }
+}
 
 export const chat = new Chat({
   userName: 'agent',
@@ -20,16 +77,11 @@ export const chat = new Chat({
   logger,
 });
 
-function parseThreadId(threadId: string): { channelId: string; threadTs: string } | null {
-  const parts = threadId.split(':');
-  if (parts.length >= 3 && parts[0] === 'slack') {
-    return { channelId: parts[1], threadTs: parts[2] };
-  }
-  return null;
-}
-
-async function handleMessage(thread: Thread, message?: Message): Promise<void> {
-  await thread.startTyping('is thinking...');
+async function handleMessage(
+  thread: { id: string; post: (text: string) => Promise<any> },
+  message: { text?: string } | undefined,
+): Promise<void> {
+  await setThinkingStatus(thread.id);
 
   const threadInfo = parseThreadId(thread.id);
   if (!threadInfo) {
@@ -42,20 +94,7 @@ async function handleMessage(thread: Thread, message?: Message): Promise<void> {
     return;
   }
 
-  const history: Array<{ role: 'user' | 'assistant'; content: string }> = [];
-  try {
-    for await (const msg of thread.allMessages) {
-      if (msg.text.trim()) {
-        history.push({
-          role: msg.author.isMe ? 'assistant' : 'user',
-          content: msg.text,
-        });
-      }
-    }
-    history.pop();
-  } catch (error) {
-    logger.error('Failed to fetch thread history', { error: String(error) });
-  }
+  const history = await fetchThreadHistory(threadInfo.channelId, threadInfo.threadTs);
 
   start(workflowAgent, [
     {
