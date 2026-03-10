@@ -79,18 +79,3 @@ export async function stepEndStream(threadId: string): Promise<void> {
 
   await clearStream(threadId);
 }
-
-export async function stepUpdateStatus(
-  slack: SlackContext,
-  status: string,
-): Promise<void> {
-  'use step';
-
-  const slackAdapter = chat.getAdapter('slack');
-  const threadId = slackAdapter.encodeThreadId({
-    channel: slack.channelId,
-    threadTs: slack.threadTs,
-  });
-
-  await slackAdapter.startTyping(threadId, status);
-}

@@ -6,7 +6,7 @@ import type { AgentInput, AgentResult } from '@/lib/types';
 import { createLogger } from '@/lib/logger';
 import { config } from '@/lib/config';
 import { buildInstructions } from '@/lib/agent';
-import { createDurableTools } from './tools';
+import { durableTools } from './tools';
 import {
   stepPostToSlack,
   stepResolveChannelName,
@@ -45,7 +45,7 @@ export async function workflowAgent(input: AgentInput): Promise<AgentResult> {
     const agent = new DurableAgent({
       model: config.model,
       system: buildInstructions() + systemSuffix,
-      tools: createDurableTools(input.slack) as any,
+      tools: durableTools as any,
       providerOptions: {
         anthropic: {
           contextManagement: {
