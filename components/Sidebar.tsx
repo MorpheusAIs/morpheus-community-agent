@@ -30,7 +30,7 @@ export function Sidebar({ communityName }: { communityName: string }) {
   const { setOpenMobile } = useSidebar();
 
   return (
-    <SidebarRoot>
+    <SidebarRoot style={{ viewTransitionName: 'sidebar' }}>
       <SidebarHeader className="px-3 py-3">
         <div className="flex items-center gap-2">
           <Bot className="h-5 w-5" />
