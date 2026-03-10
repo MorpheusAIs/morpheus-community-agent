@@ -1,14 +1,32 @@
 "use client";
 
 import { Slack } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { authClient } from "@/lib/auth-client";
 
+const oauthErrorMessages: Record<string, string> = {
+  access_denied:
+    "Sign-in was denied. You may not have access to this workspace.",
+  invalid_request: "The sign-in request was invalid. Please try again.",
+  server_error: "Slack encountered an error. Please try again later.",
+  temporarily_unavailable:
+    "Slack is temporarily unavailable. Please try again later.",
+};
+
+function getInitialError(oauthError: string | null): string | null {
+  if (!oauthError) return null;
+  return oauthErrorMessages[oauthError] ?? "Sign-in failed. Please try again.";
+}
+
 export function SignInButton() {
+  const searchParams = useSearchParams();
   const isDev = process.env.NODE_ENV !== "production";
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(() =>
+    getInitialError(searchParams.get("error")),
+  );
 
   async function handleDevSignIn() {
     setLoading(true);
@@ -46,10 +64,15 @@ export function SignInButton() {
   async function handleSlackSignIn() {
     setError(null);
     try {
-      await authClient.signIn.social({
+      const result = await authClient.signIn.social({
         provider: "slack",
         callbackURL: "/",
       });
+      if (result.error) {
+        setError(
+          result.error.message || "Failed to sign in with Slack. Check that Slack is configured correctly.",
+        );
+      }
     } catch {
       setError("Failed to start Slack sign-in.");
     }

@@ -1,3 +1,5 @@
+import { ExternalLink } from "lucide-react";
+import { Suspense } from "react";
 import {
   Card,
   CardContent,
@@ -17,9 +19,22 @@ export default function SignInPage() {
           <CardDescription>
             Sign in to the {config.communityName} admin panel
           </CardDescription>
+          {config.slackWorkspaceUrl && (
+            <a
+              className="inline-flex items-center justify-center gap-1 text-sm text-muted-foreground hover:underline"
+              href={config.slackWorkspaceUrl}
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              {config.slackWorkspaceUrl.replace(/^https?:\/\//, "")}
+              <ExternalLink className="h-3 w-3" />
+            </a>
+          )}
         </CardHeader>
         <CardContent>
-          <SignInButton />
+          <Suspense>
+            <SignInButton />
+          </Suspense>
         </CardContent>
       </Card>
     </div>
