@@ -19,14 +19,7 @@ export function setSlackContext(slack: { channelId: string; threadTs: string } |
 }
 
 async function updateStatus(status: string) {
-  const { createLogger } = await import('@/lib/logger');
-  const logger = createLogger('tool-status');
-
-  if (!currentSlack) {
-    logger.debug('No slack context for status update', { status });
-    return;
-  }
-
+  if (!currentSlack) return;
   try {
     const { getSlackClient } = await import('@/lib/slack');
     await getSlackClient().apiCall('assistant.threads.setStatus', {
@@ -34,10 +27,7 @@ async function updateStatus(status: string) {
       thread_ts: currentSlack.threadTs,
       status,
     });
-    logger.info('Status updated', { status });
-  } catch (error) {
-    logger.error('Failed to update status', { status, error: String(error) });
-  }
+  } catch {}
 }
 
 async function executeBash({ command }: { command: string }) {
