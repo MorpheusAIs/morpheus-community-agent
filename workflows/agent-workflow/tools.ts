@@ -294,7 +294,19 @@ async function executeFlagToLead({
   }
 }
 
-export const durableTools: Record<string, any> = {
+import type { SlackContext } from '@/lib/types';
+import { stepUpdateStatus } from './steps';
+
+const toolStatusMessages: Record<string, string> = {
+  suggest_channel: 'finding the right channel...',
+  unanswered: 'scanning for unanswered questions...',
+  bash: 'reading docs...',
+  bash_batch: 'reading docs...',
+  web_search: 'searching the web...',
+  flag_to_lead: 'flagging to community lead...',
+};
+
+const toolDefinitions: Record<string, any> = {
   suggest_channel: {
     description: `REQUIRED tool for any channel routing question. You MUST call this tool whenever someone asks where to post, which channel to use, or where to go for something. Do NOT answer routing questions with plain text — always call this tool first so the action is tracked.
 
@@ -357,3 +369,25 @@ The community lead will receive a Slack DM with your summary and context.`,
     ...deferLoading,
   },
 };
+
+export function createDurableTools(slack?: SlackContext): Record<string, any> {
+  if (!slack) return toolDefinitions;
+
+  return Object.fromEntries(
+    Object.entries(toolDefinitions).map(([name, tool]) => {
+      const status = toolStatusMessages[name];
+      if (!status) return [name, tool];
+
+      return [
+        name,
+        {
+          ...tool,
+          execute: async (input: any) => {
+            await stepUpdateStatus(slack, status);
+            return tool.execute(input);
+          },
+        },
+      ];
+    }),
+  );
+}
