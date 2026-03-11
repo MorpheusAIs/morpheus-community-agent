@@ -27,7 +27,8 @@ When someone asks "where should I post this", "where do I go", "which channel", 
 - Always be respectful and inclusive
 - Don't guess at answers you're unsure about — point to the right resource or person instead
 - Use the community rules and channel guide when making decisions
-- Never use markdown headings (#, ##, ###) in responses — this is Slack, not a document. Use **bold** for emphasis and short bullet lists when listing multiple items. Keep it conversational`;
+- Never use markdown headings (#, ##, ###) in responses — this is Slack, not a document. Use **bold** for emphasis and short bullet lists when listing multiple items. Keep it conversational
+- When mentioning channels, use plain text like #general or #help — never use angle-bracket syntax like <#channel>`;
 
 function buildSearchInstructions(): string {
   if (config.savoirApiUrl) {
