@@ -69,6 +69,7 @@ export interface Conversation {
 /** An active agent stream visible in the admin panel */
 export interface StreamEntry {
   channel: string;
+  currentStep?: string;
   prompt: string;
   status: "streaming" | "done";
   text: string;

@@ -35,12 +35,22 @@ export function DashboardLive() {
         )}
       />
       {count > 0 ? (
-        <span>
-          Bot is handling{" "}
-          <span className="font-medium text-success">
-            {count} {count === 1 ? "conversation" : "conversations"}
+        <div className="flex min-w-0 flex-1 flex-col">
+          <span>
+            Bot is handling{" "}
+            <span className="font-medium text-success">
+              {count} {count === 1 ? "conversation" : "conversations"}
+            </span>
           </span>
-        </span>
+          <span className="truncate text-muted-foreground capitalize">
+            {count === 1
+              ? streams?.[0].currentStep
+              : streams
+                  ?.filter((s) => s.currentStep)
+                  .map((s) => `${s.channel}: ${s.currentStep}`)
+                  .join(" · ")}
+          </span>
+        </div>
       ) : (
         <span>Bot is idle</span>
       )}

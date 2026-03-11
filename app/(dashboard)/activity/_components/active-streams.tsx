@@ -72,6 +72,16 @@ export function ActiveStreams() {
                 return `Bot is responding in ${newStreams[0].channel}\u2026`;
               })()}
             </p>
+            {isActive && (
+              <p className="mt-0.5 text-muted-foreground text-xs capitalize">
+                {newStreams.length === 1
+                  ? newStreams[0].currentStep
+                  : newStreams
+                      .filter((s) => s.currentStep)
+                      .map((s) => `${s.channel}: ${s.currentStep}`)
+                      .join(" · ")}
+              </p>
+            )}
           </div>
           <Badge
             className={
