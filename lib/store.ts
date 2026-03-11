@@ -431,32 +431,6 @@ export async function writeStreamEntry(entry: StreamEntry): Promise<void> {
   }
 }
 
-export async function updateStreamCurrentStep(
-  threadId: string,
-  currentStep: string
-): Promise<void> {
-  const client = getRedis();
-  if (!client) {
-    return;
-  }
-
-  try {
-    const raw = await client.get<string>(`${STREAM_PREFIX}${threadId}`);
-    if (!raw) {
-      return;
-    }
-    const entry = parseEntry<StreamEntry>(raw);
-    entry.currentStep = currentStep;
-    await client.set(`${STREAM_PREFIX}${threadId}`, JSON.stringify(entry), {
-      ex: TTL_STREAM,
-    });
-  } catch (error) {
-    logger.error("Failed to update stream step", {
-      error: safeErrorMessage(error),
-    });
-  }
-}
-
 export async function clearStream(threadId: string): Promise<void> {
   const client = getRedis();
   if (!client) {

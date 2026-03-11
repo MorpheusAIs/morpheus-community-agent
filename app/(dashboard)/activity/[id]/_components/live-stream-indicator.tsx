@@ -32,9 +32,7 @@ export function LiveStreamIndicator({ threadKey }: { threadKey: string }) {
       <Card className="max-w-[75%] gap-0 border-success/20 bg-success/5 py-0">
         <CardContent className="flex items-center gap-2 px-3 py-1.5 text-muted-foreground text-sm">
           <Loader2 className="h-3 w-3 animate-spin text-success" />
-          <span className="capitalize">
-            {stream.currentStep || "Bot is responding\u2026"}
-          </span>
+          Bot is responding&hellip;
         </CardContent>
       </Card>
     </div>

@@ -74,7 +74,6 @@ export async function workflowAgent(input: AgentInput): Promise<AgentResult> {
       await stepStartStream({
         threadId: streamThreadId,
         channel: streamChannelName,
-        currentStep: "thinking...",
         prompt: input.prompt
           .replace(/<@[A-Z0-9]+>/g, "")
           .replace(/@U[A-Z0-9]{8,}/g, "")

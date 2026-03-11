@@ -6,7 +6,7 @@ import { channels } from "@/lib/channels";
 import { config } from "@/lib/config";
 import { createSavoirClient } from "@/lib/savoir";
 import { getSlackClient } from "@/lib/slack";
-import { logAction, updateStreamCurrentStep } from "@/lib/store";
+import { logAction } from "@/lib/store";
 
 const deferLoading = {
   providerOptions: { anthropic: { deferLoading: true } },
@@ -30,17 +30,15 @@ async function updateStatus(status: string) {
   if (!currentSlack) {
     return;
   }
-
-  const streamThreadId = `${currentSlack.channelId}:${currentSlack.threadTs}`;
-
-  await Promise.allSettled([
-    getSlackClient().apiCall("assistant.threads.setStatus", {
+  try {
+    await getSlackClient().apiCall("assistant.threads.setStatus", {
       channel_id: currentSlack.channelId,
       thread_ts: currentSlack.threadTs,
       status,
-    }),
-    updateStreamCurrentStep(streamThreadId, status),
-  ]);
+    });
+  } catch {
+    /* noop */
+  }
 }
 
 async function executeBash({ command }: { command: string }) {
