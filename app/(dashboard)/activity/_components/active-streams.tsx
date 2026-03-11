@@ -57,11 +57,11 @@ export function ActiveStreams() {
             {isActive ? (
               <Loader2 className="h-3 w-3 animate-spin text-success" />
             ) : (
-              <Radio className="h-3 w-3 text-muted-foreground/40" />
+              <Radio className="h-3 w-3 text-muted-foreground" />
             )}
           </div>
           <div className="min-w-0 flex-1">
-            <p className="text-xs">
+            <p className={cn("text-xs", !isActive && "text-muted-foreground")}>
               {(() => {
                 if (!isActive) {
                   return "Bot is idle";
@@ -77,7 +77,7 @@ export function ActiveStreams() {
             className={
               isActive
                 ? "shrink-0 border-success/30 text-success"
-                : "shrink-0 text-muted-foreground/50"
+                : "shrink-0 text-muted-foreground"
             }
             variant="outline"
           >

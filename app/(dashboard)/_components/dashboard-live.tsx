@@ -25,13 +25,13 @@ export function DashboardLive() {
         "flex items-center gap-2 rounded-lg border px-3 py-2 text-xs",
         count > 0
           ? "border-success/20 bg-success/5"
-          : "border-dashed text-muted-foreground/50"
+          : "border-dashed text-muted-foreground"
       )}
     >
       <Radio
         className={cn(
           "h-3.5 w-3.5",
-          count > 0 ? "animate-pulse text-success" : "text-muted-foreground/30"
+          count > 0 ? "animate-pulse text-success" : "text-muted-foreground"
         )}
       />
       {count > 0 ? (
