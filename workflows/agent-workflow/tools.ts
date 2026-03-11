@@ -1,7 +1,7 @@
 import type { ToolSet } from "ai";
 import { generateText, stepCountIs } from "ai";
 import { z } from "zod";
-import { openai } from "@/lib/ai";
+import { anthropic } from "@/lib/ai";
 import { channels } from "@/lib/channels";
 import { config } from "@/lib/config";
 import { createSavoirClient } from "@/lib/savoir";
@@ -93,14 +93,17 @@ async function executeWebSearch({ query }: { query: string }) {
   "use step";
   await updateStatus("searching the web...");
 
+  const modelId = config.model.replace(/^anthropic\//, "");
   const result = await generateText({
-    model: openai(config.searchModel),
+    model: anthropic(modelId),
     tools: {
-      webSearch: openai.tools.webSearch(),
+      webSearch: anthropic.tools.webSearch_20250305({
+        ...(config.searchDomains.length > 0
+          ? { allowedDomains: config.searchDomains }
+          : {}),
+      }),
     },
-    prompt: config.searchDomains.length > 0
-      ? `Search only these domains: ${config.searchDomains.join(", ")}. Query: ${query}`
-      : query,
+    prompt: query,
     stopWhen: stepCountIs(5),
   });
 
