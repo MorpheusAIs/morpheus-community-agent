@@ -1,4 +1,13 @@
-import { Bot, ExternalLink, Lock, MessageSquare, User } from "lucide-react";
+import {
+  Bot,
+  ExternalLink,
+  Globe,
+  Lock,
+  MessageSquare,
+  Terminal,
+  User,
+  Wrench,
+} from "lucide-react";
 import { notFound } from "next/navigation";
 import { connection } from "next/server";
 import { Suspense, ViewTransition } from "react";
@@ -7,6 +16,7 @@ import { BackButton } from "@/components/back-button";
 import { FormattedTime } from "@/components/formatted-time";
 import { Header } from "@/components/header";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getActionById, getConversationDetail } from "@/data/queries/activity";
@@ -172,6 +182,20 @@ async function ConversationMessages({
                     {cleanSlackText(msg.content)}
                   </span>
                 )}
+                {msg.toolCalls && msg.toolCalls.length > 0 && (
+                  <div className="mt-2 flex flex-wrap gap-1">
+                    {msg.toolCalls.map((tc, i) => (
+                      <Badge
+                        className="gap-1 text-xs font-normal"
+                        key={`${tc.toolName}-${i}`}
+                        variant="secondary"
+                      >
+                        <ToolIcon toolName={tc.toolName} />
+                        {formatToolName(tc.toolName)}
+                      </Badge>
+                    ))}
+                  </div>
+                )}
                 {msg.timestamp && (
                   <div className="mt-1 text-muted-foreground text-xs">
                     <FormattedTime timestamp={msg.timestamp} />
@@ -185,6 +209,32 @@ async function ConversationMessages({
       {threadKey && <LiveStreamIndicator threadKey={threadKey} />}
     </div>
   );
+}
+
+const TOOL_LABELS: Record<string, string> = {
+  bash: "Knowledge Base",
+  bash_batch: "Knowledge Base",
+  flag_to_lead: "Flag to Lead",
+  suggest_channel: "Channel Routing",
+  unanswered: "Unanswered Scan",
+  web_search: "Web Search",
+};
+
+function formatToolName(toolName: string): string {
+  return TOOL_LABELS[toolName] ?? toolName;
+}
+
+function ToolIcon({ toolName }: { toolName: string }) {
+  const className = "h-3 w-3";
+  switch (toolName) {
+    case "web_search":
+      return <Globe className={className} />;
+    case "bash":
+    case "bash_batch":
+      return <Terminal className={className} />;
+    default:
+      return <Wrench className={className} />;
+  }
 }
 
 function ActionDetailSkeleton() {

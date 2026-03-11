@@ -181,6 +181,10 @@ export async function workflowAgent(input: AgentInput): Promise<AgentResult> {
         }
       }
 
+      const usedTools = toolCalls.map((tc) => ({
+        toolName: (tc as { toolName?: string }).toolName ?? "unknown",
+      }));
+
       const conversation = [
         ...(input.history || []).map((m) => ({
           role: m.role as "user" | "assistant",
@@ -191,6 +195,7 @@ export async function workflowAgent(input: AgentInput): Promise<AgentResult> {
           role: "assistant" as const,
           content: responseText,
           timestamp: Date.now(),
+          ...(usedTools.length > 0 ? { toolCalls: usedTools } : {}),
         },
       ];
 

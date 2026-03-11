@@ -46,11 +46,18 @@ export interface BotAction {
   user?: string;
 }
 
+/** A tool call made by the agent during a conversation turn */
+export interface ToolCall {
+  args?: Record<string, unknown>;
+  toolName: string;
+}
+
 /** A message in a stored conversation */
 export interface ConversationMessage {
   content: string;
   role: "user" | "assistant";
   timestamp?: number;
+  toolCalls?: ToolCall[];
 }
 
 /** A conversation stored alongside an action */

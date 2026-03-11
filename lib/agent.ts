@@ -41,7 +41,7 @@ You have access to a knowledge base via bash commands. **Always check the knowle
 - grep — search for specific content
 - find — locate files by name
 
-Use bash_batch to run multiple commands efficiently in a single request. Only fall back to web search if the knowledge base doesn't have what you need.`;
+Use bash_batch to run multiple commands efficiently in a single request. If the knowledge base doesn't have what you need or the commands fail, fall back to web search.`;
   }
   return "";
 }
@@ -56,7 +56,7 @@ You have web search and web fetch tools. Use them when:
 - A question involves recent updates, releases, or current information
 - You need to verify facts that may have changed recently
 
-${config.savoirApiUrl ? "Prefer the knowledge base for documentation questions. Use web search for current events, recent releases, or topics not in the knowledge base." : 'When in doubt, search first. Don\'t suggest "check the docs" if you can search for the answer yourself.'}`;
+${config.savoirApiUrl ? "Prefer the knowledge base for documentation questions. Use web search for current events, recent releases, topics not in the knowledge base, or when bash commands fail." : 'When in doubt, search first. Don\'t suggest "check the docs" if you can search for the answer yourself.'}`;
 }
 
 function buildFlaggingInstructions(): string {
