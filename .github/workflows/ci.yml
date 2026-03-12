@@ -35,4 +35,6 @@ jobs:
       - name: 🛠️ Build
         run: pnpm build
         env:
-          BETTER_AUTH_SECRET: ${{ secrets.BETTER_AUTH_SECRET }}
+          BETTER_AUTH_SECRET: ci-placeholder
+          SLACK_SIGNING_SECRET: ci-placeholder
+          SLACK_BOT_TOKEN: xoxb-ci-placeholder
