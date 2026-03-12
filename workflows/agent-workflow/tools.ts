@@ -6,8 +6,6 @@ import { createSavoirClient } from "@/lib/savoir";
 import { getSlackClient } from "@/lib/slack";
 import { logAction } from "@/lib/store";
 
-const ANTHROPIC_PREFIX_RE = /^anthropic\//;
-
 const deferLoading = {
   providerOptions: { anthropic: { deferLoading: true } },
 };
@@ -94,11 +92,11 @@ async function executeWebSearch({ query }: { query: string }) {
   await updateStatus("searching the web...");
 
   const { generateText, stepCountIs } = await import("ai");
-  const { anthropic } = await import("@/lib/ai");
+  const { createAnthropic } = await import("@ai-sdk/anthropic");
+  const anthropic = createAnthropic();
 
-  const modelId = config.model.replace(ANTHROPIC_PREFIX_RE, "");
   const result = await generateText({
-    model: anthropic(modelId),
+    model: config.model,
     tools: {
       webSearch: anthropic.tools.webSearch_20250305({
         ...(config.searchDomains.length > 0
