@@ -10,8 +10,6 @@ const deferLoading = {
   providerOptions: { anthropic: { deferLoading: true } },
 };
 
-const ANTHROPIC_PREFIX_RE = /^anthropic\//;
-
 const savoir = config.savoirApiUrl
   ? createSavoirClient(config.savoirApiUrl, config.savoirApiKey || undefined)
   : null;
@@ -94,19 +92,19 @@ async function executeWebSearch({ query }: { query: string }) {
   await updateStatus("searching the web...");
 
   const { generateText, stepCountIs } = await import("ai");
-  const { anthropic } = await import("@/lib/ai");
+  const { openai } = await import("@/lib/ai");
 
-  const modelId = config.model.replace(ANTHROPIC_PREFIX_RE, "");
+  const searchPrompt =
+    config.searchDomains.length > 0
+      ? `Search only these domains: ${config.searchDomains.join(", ")}. Query: ${query}`
+      : query;
+
   const result = await generateText({
-    model: anthropic(modelId),
+    model: openai("gpt-4o-mini"),
     tools: {
-      webSearch: anthropic.tools.webSearch_20250305({
-        ...(config.searchDomains.length > 0
-          ? { allowedDomains: config.searchDomains }
-          : {}),
-      }),
+      webSearch: openai.tools.webSearch(),
     },
-    prompt: query,
+    prompt: searchPrompt,
     stopWhen: stepCountIs(5),
   });
 
