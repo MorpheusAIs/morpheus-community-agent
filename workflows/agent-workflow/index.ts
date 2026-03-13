@@ -11,10 +11,11 @@ import {
   stepLogAction,
   stepPostToSlack,
   stepResolveChannelName,
+  stepSaveStatusContext,
   stepSaveUserMessage,
   stepStartStream,
 } from "./steps";
-import { durableTools, setSlackContext } from "./tools";
+import { durableTools } from "./tools";
 
 const ROUTING_PATTERN_RE = /\b(?:post|report|ask|go|head)\b.*\b#(\w+)\b/i;
 const CHANNEL_HASH_RE = /#(\w+)/;
@@ -54,7 +55,12 @@ export async function workflowAgent(input: AgentInput): Promise<AgentResult> {
       ? `\n\nCurrent thread permalink (pass to flag_to_lead if needed): ${threadPermalink}`
       : "";
 
-    setSlackContext(input.slack);
+    if (streamThreadId && input.slack) {
+      await stepSaveStatusContext(streamThreadId, {
+        channelId: input.slack.channelId,
+        threadTs: input.slack.threadTs,
+      });
+    }
 
     const agent = new DurableAgent({
       model: config.model,

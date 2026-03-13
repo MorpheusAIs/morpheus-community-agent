@@ -44,9 +44,10 @@ Slack message → Chat SDK (receive & route) → Vercel Workflow (durable) → A
          │       workflows/agent-workflow/index.ts               │
          │                                                       │
          │  1. Get thread permalink (non-DM only)               │
-         │  2. Resolve channel name + start live stream         │
-         │  3. Save user message (follow-ups only)               │
-         │  4. Run DurableAgent (AI SDK + Claude)                │
+         │  2. Save status context to Redis                    │
+         │  3. Resolve channel name + start live stream         │
+         │  4. Save user message (follow-ups only)               │
+         │  5. Run DurableAgent (AI SDK + Claude)                │
          │           ┌────────────────────────────────┐          │
          │           │ System prompt (lib/agent.ts)    │          │
          │           │ Up to 50 tool-use steps         │          │
@@ -58,14 +59,14 @@ Slack message → Chat SDK (receive & route) → Vercel Workflow (durable) → A
          │           │ ├─ bash / bash_batch *           │          │
          │           │ └─ flag_to_lead                  │          │
          │           └────────────────────────────────┘          │
-         │  5. Post response to Slack thread **                  │
-         │  6. If response mentions a channel (fallback):          │
+         │  6. Post response to Slack thread **                  │
+         │  7. If response mentions a channel (fallback):          │
          │     → Log "routed" action                             │
-         │  7. Else if no tool already logged:                   │
+         │  8. Else if no tool already logged:                   │
          │     a. Resolve channel name                           │
          │     b. Get permalink (non-DM only)                    │
          │     c. Log "answered" action + conversation           │
-         │  8. End live stream (clear from Redis)                │
+         │  9. End live stream + clear status context             │
          └──────────────────────────────────────────────────────┘
                          │
                          ▼
@@ -74,6 +75,7 @@ Slack message → Chat SDK (receive & route) → Vercel Workflow (durable) → A
          │  • Bot actions (30-day TTL)      │
          │  • Full conversations            │
          │  • Active stream entries          │
+         │  • Status context (5-min TTL)    │
          │  • Stats                          │
          └───────────────┬─────────────────┘
                          │ polled every 3s
@@ -99,7 +101,7 @@ Three layers work together:
 
 ## Tools
 
-Tools (`suggest_channel`, `unanswered`, `bash`, `bash_batch`, `web_search`, `flag_to_lead`) run as durable steps inside the workflow. Each tool updates the Slack typing indicator with a tool-specific status (e.g. "searching the web...", "reading docs...") at the start of execution. `web_search` uses Anthropic's native web search tool (`webSearch_20250305`) via a `generateText` sub-call routed through [AI Gateway](https://vercel.com/docs/ai-gateway). Less-used tools use Anthropic's `deferLoading` so only relevant tools are loaded into context. Welcome messages for new members are handled directly in the route—no workflow needed.
+Tools (`suggest_channel`, `unanswered`, `bash`, `bash_batch`, `web_search`, `flag_to_lead`) run as durable steps inside the workflow. Each tool updates the Slack typing indicator with a tool-specific status (e.g. "searching the web...", "reading docs...") at the start of execution. Because Vercel Workflow step functions run in isolated contexts, the Slack thread context is stored in Redis at workflow start and read back inside each step—module-level state doesn't cross the workflow VM / step handler boundary. `web_search` uses Anthropic's native web search tool (`webSearch_20250305`) via a `generateText` sub-call routed through [AI Gateway](https://vercel.com/docs/ai-gateway). Less-used tools use Anthropic's `deferLoading` so only relevant tools are loaded into context. Welcome messages for new members are handled directly in the route—no workflow needed.
 
 ## Admin panel
 

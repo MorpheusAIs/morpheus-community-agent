@@ -3,10 +3,13 @@ import { createLogger } from "@/lib/logger";
 import { getSlackClient } from "@/lib/slack";
 import {
   appendToConversation,
+  clearStatusContext,
   clearStream,
   logAction,
+  saveStatusContext,
   writeStreamEntry,
 } from "@/lib/store";
+import { setStatusThreadId } from "./tools";
 import type {
   BotAction,
   ConversationMessage,
@@ -98,4 +101,15 @@ export async function stepEndStream(threadId: string): Promise<void> {
   "use step";
 
   await clearStream(threadId);
+  await clearStatusContext(threadId);
+}
+
+export async function stepSaveStatusContext(
+  threadId: string,
+  context: { channelId: string; threadTs: string }
+): Promise<void> {
+  "use step";
+
+  await saveStatusContext(threadId, context);
+  setStatusThreadId(threadId);
 }

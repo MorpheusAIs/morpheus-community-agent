@@ -42,8 +42,10 @@ const THREAD_ACTION_PREFIX = "bot:thread:";
 const ACTION_THREAD_PREFIX = "bot:action-thread:";
 const LASTSEEN_PREFIX = "bot:lastseen:";
 const STREAM_PREFIX = "bot:stream:";
+const STATUS_CTX_PREFIX = "bot:status-ctx:";
 const TTL_30_DAYS = 60 * 60 * 24 * 30;
 const TTL_STREAM = 120;
+const TTL_STATUS_CTX = 300;
 
 function parseEntry<T>(entry: string | T): T {
   return typeof entry === "string" ? JSON.parse(entry) : entry;
@@ -428,6 +430,57 @@ export async function writeStreamEntry(entry: StreamEntry): Promise<void> {
     logger.error("Failed to write stream entry", {
       error: safeErrorMessage(error),
     });
+  }
+}
+
+export async function saveStatusContext(
+  threadId: string,
+  context: { channelId: string; threadTs: string }
+): Promise<void> {
+  const client = getRedis();
+  if (!client) {
+    return;
+  }
+  try {
+    await client.set(
+      `${STATUS_CTX_PREFIX}${threadId}`,
+      JSON.stringify(context),
+      { ex: TTL_STATUS_CTX }
+    );
+  } catch (error) {
+    logger.error("Failed to save status context", {
+      error: safeErrorMessage(error),
+    });
+  }
+}
+
+export async function getStatusContext(
+  threadId: string
+): Promise<{ channelId: string; threadTs: string } | null> {
+  const client = getRedis();
+  if (!client) {
+    return null;
+  }
+  try {
+    const raw = await client.get<string>(`${STATUS_CTX_PREFIX}${threadId}`);
+    if (!raw) {
+      return null;
+    }
+    return parseEntry<{ channelId: string; threadTs: string }>(raw);
+  } catch {
+    return null;
+  }
+}
+
+export async function clearStatusContext(threadId: string): Promise<void> {
+  const client = getRedis();
+  if (!client) {
+    return;
+  }
+  try {
+    await client.del(`${STATUS_CTX_PREFIX}${threadId}`);
+  } catch {
+    /* noop */
   }
 }
 

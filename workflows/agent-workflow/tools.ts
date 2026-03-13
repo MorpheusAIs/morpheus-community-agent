@@ -4,7 +4,7 @@ import { channels } from "@/lib/channels";
 import { config } from "@/lib/config";
 import { createSavoirClient } from "@/lib/savoir";
 import { getSlackClient } from "@/lib/slack";
-import { logAction } from "@/lib/store";
+import { getStatusContext, logAction } from "@/lib/store";
 
 const deferLoading = {
   providerOptions: { anthropic: { deferLoading: true } },
@@ -14,22 +14,24 @@ const savoir = config.savoirApiUrl
   ? createSavoirClient(config.savoirApiUrl, config.savoirApiKey || undefined)
   : null;
 
-let currentSlack: { channelId: string; threadTs: string } | null = null;
+let statusThreadId: string | null = null;
 
-export function setSlackContext(
-  slack: { channelId: string; threadTs: string } | undefined
-) {
-  currentSlack = slack ?? null;
+export function setStatusThreadId(threadId: string | undefined) {
+  statusThreadId = threadId ?? null;
 }
 
 async function updateStatus(status: string) {
-  if (!currentSlack) {
+  if (!statusThreadId) {
+    return;
+  }
+  const ctx = await getStatusContext(statusThreadId);
+  if (!ctx) {
     return;
   }
   try {
     await getSlackClient().apiCall("assistant.threads.setStatus", {
-      channel_id: currentSlack.channelId,
-      thread_ts: currentSlack.threadTs,
+      channel_id: ctx.channelId,
+      thread_ts: ctx.threadTs,
       status,
     });
   } catch {
