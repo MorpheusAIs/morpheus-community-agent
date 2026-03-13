@@ -1,7 +1,7 @@
 {
   "type": "excalidraw",
   "version": 2,
-  "source": "community-agent-template",
+  "source": "https://marketplace.visualstudio.com/items?itemName=pomdtr.excalidraw-editor",
   "elements": [
     {
       "id": "slack-box",
@@ -14,26 +14,37 @@
       "backgroundColor": "#e9ecef",
       "fillStyle": "solid",
       "strokeWidth": 2,
-      "roundness": { "type": 3 },
+      "roundness": {
+        "type": 3
+      },
       "seed": 1,
-      "version": 1,
+      "version": 2,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
       "frameId": null,
-      "boundElements": [{ "type": "text", "id": "slack-text" }],
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "slack-text"
+        }
+      ],
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1
+      "updated": 1773402927274,
+      "versionNonce": 1075126910,
+      "index": "a0",
+      "strokeStyle": "solid",
+      "roughness": 1
     },
     {
       "id": "slack-text",
       "type": "text",
-      "x": 410,
-      "y": 52,
-      "width": 180,
-      "height": 46,
+      "x": 368.75,
+      "y": 55.8,
+      "width": 262.5,
+      "height": 38.4,
       "text": "Slack Workspace\n@mention · reply · DM · join",
       "fontSize": 16,
       "fontFamily": 3,
@@ -45,7 +56,7 @@
       "strokeWidth": 1,
       "roundness": null,
       "seed": 2,
-      "version": 1,
+      "version": 4,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
@@ -55,10 +66,14 @@
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1,
+      "updated": 1773402932059,
       "originalText": "Slack Workspace\n@mention · reply · DM · join",
       "autoResize": true,
-      "lineHeight": 1.2
+      "lineHeight": 1.2,
+      "versionNonce": 21708862,
+      "index": "a1",
+      "strokeStyle": "solid",
+      "roughness": 1
     },
     {
       "id": "arrow-slack-chatsdk",
@@ -67,14 +82,25 @@
       "y": 110,
       "width": 0,
       "height": 50,
-      "points": [[0, 0], [0, 50]],
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          50
+        ]
+      ],
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
-      "roundness": { "type": 2 },
+      "roundness": {
+        "type": 2
+      },
       "seed": 3,
-      "version": 1,
+      "version": 2,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
@@ -83,9 +109,16 @@
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1,
+      "updated": 1773402927274,
       "endArrowhead": "arrow",
-      "startArrowhead": null
+      "startArrowhead": null,
+      "lastCommittedPoint": null,
+      "versionNonce": 1619534526,
+      "index": "a2",
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "startBinding": null,
+      "endBinding": null
     },
     {
       "id": "chatsdk-box",
@@ -98,18 +131,29 @@
       "backgroundColor": "#e6fcf5",
       "fillStyle": "solid",
       "strokeWidth": 2,
-      "roundness": { "type": 3 },
+      "roundness": {
+        "type": 3
+      },
       "seed": 4,
-      "version": 1,
+      "version": 2,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
       "frameId": null,
-      "boundElements": [{ "type": "text", "id": "chatsdk-text" }],
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "chatsdk-text"
+        }
+      ],
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1
+      "updated": 1773402927274,
+      "versionNonce": 1703866402,
+      "index": "a3",
+      "strokeStyle": "solid",
+      "roughness": 1
     },
     {
       "id": "chatsdk-text",
@@ -129,7 +173,7 @@
       "strokeWidth": 1,
       "roundness": null,
       "seed": 5,
-      "version": 1,
+      "version": 2,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
@@ -139,10 +183,14 @@
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1,
+      "updated": 1773402927274,
       "originalText": "Chat SDK\nwebhook · threads · typing\napp/api/slack/route.ts",
       "autoResize": true,
-      "lineHeight": 1.2
+      "lineHeight": 1.2,
+      "versionNonce": 858856190,
+      "index": "a4",
+      "strokeStyle": "solid",
+      "roughness": 1
     },
     {
       "id": "chatsdk-label",
@@ -162,7 +210,7 @@
       "strokeWidth": 1,
       "roundness": null,
       "seed": 50,
-      "version": 1,
+      "version": 2,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
@@ -171,10 +219,15 @@
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1,
+      "updated": 1773402927274,
       "originalText": "messaging layer",
       "autoResize": true,
-      "lineHeight": 1.2
+      "lineHeight": 1.2,
+      "versionNonce": 675322850,
+      "index": "a5",
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "containerId": null
     },
     {
       "id": "arrow-chatsdk-workflow",
@@ -183,14 +236,25 @@
       "y": 240,
       "width": 0,
       "height": 50,
-      "points": [[0, 0], [0, 50]],
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          50
+        ]
+      ],
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
-      "roundness": { "type": 2 },
+      "roundness": {
+        "type": 2
+      },
       "seed": 6,
-      "version": 1,
+      "version": 2,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
@@ -199,9 +263,16 @@
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1,
+      "updated": 1773402927274,
       "endArrowhead": "arrow",
-      "startArrowhead": null
+      "startArrowhead": null,
+      "lastCommittedPoint": null,
+      "versionNonce": 1854999358,
+      "index": "a6",
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "startBinding": null,
+      "endBinding": null
     },
     {
       "id": "welcome-box",
@@ -214,18 +285,29 @@
       "backgroundColor": "#f8f9fa",
       "fillStyle": "solid",
       "strokeWidth": 1,
-      "roundness": { "type": 3 },
+      "roundness": {
+        "type": 3
+      },
       "seed": 40,
-      "version": 1,
+      "version": 2,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
       "frameId": null,
-      "boundElements": [{ "type": "text", "id": "welcome-text" }],
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "welcome-text"
+        }
+      ],
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1
+      "updated": 1773402927274,
+      "versionNonce": 1195823010,
+      "index": "a7",
+      "strokeStyle": "solid",
+      "roughness": 1
     },
     {
       "id": "welcome-text",
@@ -245,7 +327,7 @@
       "strokeWidth": 1,
       "roundness": null,
       "seed": 41,
-      "version": 1,
+      "version": 2,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
@@ -255,10 +337,14 @@
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1,
+      "updated": 1773402927274,
       "originalText": "Welcome DM\nlib/welcome.ts",
       "autoResize": true,
-      "lineHeight": 1.2
+      "lineHeight": 1.2,
+      "versionNonce": 1359541118,
+      "index": "a8",
+      "strokeStyle": "solid",
+      "roughness": 1
     },
     {
       "id": "arrow-chatsdk-welcome",
@@ -267,14 +353,25 @@
       "y": 75,
       "width": 55,
       "height": 0,
-      "points": [[0, 0], [55, 0]],
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          55,
+          0
+        ]
+      ],
       "strokeColor": "#868e96",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 1,
-      "roundness": { "type": 2 },
+      "roundness": {
+        "type": 2
+      },
       "seed": 42,
-      "version": 1,
+      "version": 2,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
@@ -283,9 +380,16 @@
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1,
+      "updated": 1773402927274,
       "endArrowhead": "arrow",
-      "startArrowhead": null
+      "startArrowhead": null,
+      "lastCommittedPoint": null,
+      "versionNonce": 1456507746,
+      "index": "a9",
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "startBinding": null,
+      "endBinding": null
     },
     {
       "id": "welcome-label",
@@ -305,7 +409,7 @@
       "strokeWidth": 1,
       "roundness": null,
       "seed": 43,
-      "version": 1,
+      "version": 2,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
@@ -314,10 +418,15 @@
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1,
+      "updated": 1773402927274,
       "originalText": "join",
       "autoResize": true,
-      "lineHeight": 1.2
+      "lineHeight": 1.2,
+      "versionNonce": 618255294,
+      "index": "aA",
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "containerId": null
     },
     {
       "id": "workflow-box",
@@ -330,18 +439,29 @@
       "backgroundColor": "#fff4e6",
       "fillStyle": "solid",
       "strokeWidth": 2,
-      "roundness": { "type": 3 },
+      "roundness": {
+        "type": 3
+      },
       "seed": 7,
-      "version": 1,
+      "version": 2,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
       "frameId": null,
-      "boundElements": [{ "type": "text", "id": "workflow-text" }],
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "workflow-text"
+        }
+      ],
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1
+      "updated": 1773402927274,
+      "versionNonce": 221040418,
+      "index": "aB",
+      "strokeStyle": "solid",
+      "roughness": 1
     },
     {
       "id": "workflow-text",
@@ -361,7 +481,7 @@
       "strokeWidth": 1,
       "roundness": null,
       "seed": 8,
-      "version": 1,
+      "version": 2,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
@@ -371,10 +491,14 @@
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1,
+      "updated": 1773402927274,
       "originalText": "Vercel Workflow\ncheckpoints · retries · resume\nworkflows/agent-workflow/",
       "autoResize": true,
-      "lineHeight": 1.2
+      "lineHeight": 1.2,
+      "versionNonce": 1143254014,
+      "index": "aC",
+      "strokeStyle": "solid",
+      "roughness": 1
     },
     {
       "id": "workflow-label",
@@ -394,7 +518,7 @@
       "strokeWidth": 1,
       "roundness": null,
       "seed": 51,
-      "version": 1,
+      "version": 2,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
@@ -403,10 +527,15 @@
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1,
+      "updated": 1773402927274,
       "originalText": "durability layer",
       "autoResize": true,
-      "lineHeight": 1.2
+      "lineHeight": 1.2,
+      "versionNonce": 2127207138,
+      "index": "aD",
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "containerId": null
     },
     {
       "id": "arrow-workflow-aisdk",
@@ -415,14 +544,25 @@
       "y": 370,
       "width": 0,
       "height": 50,
-      "points": [[0, 0], [0, 50]],
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          50
+        ]
+      ],
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
-      "roundness": { "type": 2 },
+      "roundness": {
+        "type": 2
+      },
       "seed": 9,
-      "version": 1,
+      "version": 2,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
@@ -431,9 +571,16 @@
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1,
+      "updated": 1773402927274,
       "endArrowhead": "arrow",
-      "startArrowhead": null
+      "startArrowhead": null,
+      "lastCommittedPoint": null,
+      "versionNonce": 485129278,
+      "index": "aE",
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "startBinding": null,
+      "endBinding": null
     },
     {
       "id": "aisdk-box",
@@ -446,9 +593,11 @@
       "backgroundColor": "#e7f5ff",
       "fillStyle": "solid",
       "strokeWidth": 2,
-      "roundness": { "type": 3 },
+      "roundness": {
+        "type": 3
+      },
       "seed": 10,
-      "version": 1,
+      "version": 2,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
@@ -457,7 +606,11 @@
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1
+      "updated": 1773402927274,
+      "versionNonce": 1513680546,
+      "index": "aF",
+      "strokeStyle": "solid",
+      "roughness": 1
     },
     {
       "id": "aisdk-title",
@@ -477,7 +630,7 @@
       "strokeWidth": 1,
       "roundness": null,
       "seed": 11,
-      "version": 1,
+      "version": 2,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
@@ -486,10 +639,15 @@
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1,
+      "updated": 1773402927274,
       "originalText": "DurableAgent — AI SDK + Claude\nlib/agent.ts · AI Gateway (OIDC)",
       "autoResize": true,
-      "lineHeight": 1.2
+      "lineHeight": 1.2,
+      "versionNonce": 889996414,
+      "index": "aG",
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "containerId": null
     },
     {
       "id": "aisdk-label",
@@ -509,7 +667,7 @@
       "strokeWidth": 1,
       "roundness": null,
       "seed": 52,
-      "version": 1,
+      "version": 2,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
@@ -518,10 +676,15 @@
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1,
+      "updated": 1773402927274,
       "originalText": "AI layer",
       "autoResize": true,
-      "lineHeight": 1.2
+      "lineHeight": 1.2,
+      "versionNonce": 606521954,
+      "index": "aH",
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "containerId": null
     },
     {
       "id": "tool-1",
@@ -534,18 +697,29 @@
       "backgroundColor": "#d0ebff",
       "fillStyle": "solid",
       "strokeWidth": 1,
-      "roundness": { "type": 3 },
+      "roundness": {
+        "type": 3
+      },
       "seed": 12,
-      "version": 1,
+      "version": 2,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
       "frameId": null,
-      "boundElements": [{ "type": "text", "id": "tool-1-text" }],
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "tool-1-text"
+        }
+      ],
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1
+      "updated": 1773402927274,
+      "versionNonce": 776668350,
+      "index": "aI",
+      "strokeStyle": "solid",
+      "roughness": 1
     },
     {
       "id": "tool-1-text",
@@ -565,7 +739,7 @@
       "strokeWidth": 1,
       "roundness": null,
       "seed": 13,
-      "version": 1,
+      "version": 2,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
@@ -575,10 +749,14 @@
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1,
+      "updated": 1773402927274,
       "originalText": "suggest_channel",
       "autoResize": true,
-      "lineHeight": 1.2
+      "lineHeight": 1.2,
+      "versionNonce": 1935879714,
+      "index": "aJ",
+      "strokeStyle": "solid",
+      "roughness": 1
     },
     {
       "id": "tool-2",
@@ -591,18 +769,29 @@
       "backgroundColor": "#d0ebff",
       "fillStyle": "solid",
       "strokeWidth": 1,
-      "roundness": { "type": 3 },
+      "roundness": {
+        "type": 3
+      },
       "seed": 14,
-      "version": 1,
+      "version": 2,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
       "frameId": null,
-      "boundElements": [{ "type": "text", "id": "tool-2-text" }],
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "tool-2-text"
+        }
+      ],
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1
+      "updated": 1773402927274,
+      "versionNonce": 1246215422,
+      "index": "aK",
+      "strokeStyle": "solid",
+      "roughness": 1
     },
     {
       "id": "tool-2-text",
@@ -622,7 +811,7 @@
       "strokeWidth": 1,
       "roundness": null,
       "seed": 15,
-      "version": 1,
+      "version": 2,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
@@ -632,10 +821,14 @@
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1,
+      "updated": 1773402927274,
       "originalText": "web_search",
       "autoResize": true,
-      "lineHeight": 1.2
+      "lineHeight": 1.2,
+      "versionNonce": 752687586,
+      "index": "aL",
+      "strokeStyle": "solid",
+      "roughness": 1
     },
     {
       "id": "tool-3",
@@ -648,18 +841,29 @@
       "backgroundColor": "#d0ebff",
       "fillStyle": "solid",
       "strokeWidth": 1,
-      "roundness": { "type": 3 },
+      "roundness": {
+        "type": 3
+      },
       "seed": 16,
-      "version": 1,
+      "version": 2,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
       "frameId": null,
-      "boundElements": [{ "type": "text", "id": "tool-3-text" }],
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "tool-3-text"
+        }
+      ],
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1
+      "updated": 1773402927274,
+      "versionNonce": 1854106942,
+      "index": "aM",
+      "strokeStyle": "solid",
+      "roughness": 1
     },
     {
       "id": "tool-3-text",
@@ -679,7 +883,7 @@
       "strokeWidth": 1,
       "roundness": null,
       "seed": 17,
-      "version": 1,
+      "version": 2,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
@@ -689,10 +893,14 @@
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1,
+      "updated": 1773402927274,
       "originalText": "unanswered",
       "autoResize": true,
-      "lineHeight": 1.2
+      "lineHeight": 1.2,
+      "versionNonce": 1067683234,
+      "index": "aN",
+      "strokeStyle": "solid",
+      "roughness": 1
     },
     {
       "id": "tool-4",
@@ -705,18 +913,29 @@
       "backgroundColor": "#d0ebff",
       "fillStyle": "solid",
       "strokeWidth": 1,
-      "roundness": { "type": 3 },
+      "roundness": {
+        "type": 3
+      },
       "seed": 18,
-      "version": 1,
+      "version": 2,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
       "frameId": null,
-      "boundElements": [{ "type": "text", "id": "tool-4-text" }],
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "tool-4-text"
+        }
+      ],
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1
+      "updated": 1773402927274,
+      "versionNonce": 677320062,
+      "index": "aO",
+      "strokeStyle": "solid",
+      "roughness": 1
     },
     {
       "id": "tool-4-text",
@@ -736,7 +955,7 @@
       "strokeWidth": 1,
       "roundness": null,
       "seed": 19,
-      "version": 1,
+      "version": 2,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
@@ -746,10 +965,14 @@
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1,
+      "updated": 1773402927274,
       "originalText": "bash",
       "autoResize": true,
-      "lineHeight": 1.2
+      "lineHeight": 1.2,
+      "versionNonce": 1625655650,
+      "index": "aP",
+      "strokeStyle": "solid",
+      "roughness": 1
     },
     {
       "id": "tool-5",
@@ -762,18 +985,29 @@
       "backgroundColor": "#d0ebff",
       "fillStyle": "solid",
       "strokeWidth": 1,
-      "roundness": { "type": 3 },
+      "roundness": {
+        "type": 3
+      },
       "seed": 20,
-      "version": 1,
+      "version": 2,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
       "frameId": null,
-      "boundElements": [{ "type": "text", "id": "tool-5-text" }],
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "tool-5-text"
+        }
+      ],
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1
+      "updated": 1773402927274,
+      "versionNonce": 823899582,
+      "index": "aQ",
+      "strokeStyle": "solid",
+      "roughness": 1
     },
     {
       "id": "tool-5-text",
@@ -793,7 +1027,7 @@
       "strokeWidth": 1,
       "roundness": null,
       "seed": 21,
-      "version": 1,
+      "version": 2,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
@@ -803,10 +1037,14 @@
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1,
+      "updated": 1773402927274,
       "originalText": "bash_batch",
       "autoResize": true,
-      "lineHeight": 1.2
+      "lineHeight": 1.2,
+      "versionNonce": 1207045410,
+      "index": "aR",
+      "strokeStyle": "solid",
+      "roughness": 1
     },
     {
       "id": "tool-6",
@@ -819,18 +1057,29 @@
       "backgroundColor": "#d0ebff",
       "fillStyle": "solid",
       "strokeWidth": 1,
-      "roundness": { "type": 3 },
+      "roundness": {
+        "type": 3
+      },
       "seed": 22,
-      "version": 1,
+      "version": 2,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
       "frameId": null,
-      "boundElements": [{ "type": "text", "id": "tool-6-text" }],
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "tool-6-text"
+        }
+      ],
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1
+      "updated": 1773402927274,
+      "versionNonce": 1910132222,
+      "index": "aS",
+      "strokeStyle": "solid",
+      "roughness": 1
     },
     {
       "id": "tool-6-text",
@@ -850,7 +1099,7 @@
       "strokeWidth": 1,
       "roundness": null,
       "seed": 23,
-      "version": 1,
+      "version": 2,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
@@ -860,10 +1109,14 @@
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1,
+      "updated": 1773402927274,
       "originalText": "flag_to_lead",
       "autoResize": true,
-      "lineHeight": 1.2
+      "lineHeight": 1.2,
+      "versionNonce": 1782061282,
+      "index": "aT",
+      "strokeStyle": "solid",
+      "roughness": 1
     },
     {
       "id": "tools-label",
@@ -883,7 +1136,7 @@
       "strokeWidth": 1,
       "roundness": null,
       "seed": 60,
-      "version": 1,
+      "version": 2,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
@@ -892,10 +1145,15 @@
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1,
+      "updated": 1773402927274,
       "originalText": "workflows/agent-workflow/tools.ts",
       "autoResize": true,
-      "lineHeight": 1.2
+      "lineHeight": 1.2,
+      "versionNonce": 127655486,
+      "index": "aU",
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "containerId": null
     },
     {
       "id": "arrow-aisdk-outputs",
@@ -904,14 +1162,25 @@
       "y": 620,
       "width": 0,
       "height": 50,
-      "points": [[0, 0], [0, 50]],
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          50
+        ]
+      ],
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
-      "roundness": { "type": 2 },
+      "roundness": {
+        "type": 2
+      },
       "seed": 24,
-      "version": 1,
+      "version": 2,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
@@ -920,9 +1189,16 @@
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1,
+      "updated": 1773402927274,
       "endArrowhead": "arrow",
-      "startArrowhead": null
+      "startArrowhead": null,
+      "lastCommittedPoint": null,
+      "versionNonce": 927378594,
+      "index": "aV",
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "startBinding": null,
+      "endBinding": null
     },
     {
       "id": "arrow-aisdk-outputs-2",
@@ -931,14 +1207,25 @@
       "y": 620,
       "width": 0,
       "height": 50,
-      "points": [[0, 0], [0, 50]],
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          50
+        ]
+      ],
       "strokeColor": "#1e1e1e",
       "backgroundColor": "transparent",
       "fillStyle": "solid",
       "strokeWidth": 2,
-      "roundness": { "type": 2 },
+      "roundness": {
+        "type": 2
+      },
       "seed": 25,
-      "version": 1,
+      "version": 2,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
@@ -947,9 +1234,16 @@
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1,
+      "updated": 1773402927274,
       "endArrowhead": "arrow",
-      "startArrowhead": null
+      "startArrowhead": null,
+      "lastCommittedPoint": null,
+      "versionNonce": 1195468414,
+      "index": "aW",
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "startBinding": null,
+      "endBinding": null
     },
     {
       "id": "slack-reply-box",
@@ -962,18 +1256,29 @@
       "backgroundColor": "#f3f0ff",
       "fillStyle": "solid",
       "strokeWidth": 2,
-      "roundness": { "type": 3 },
+      "roundness": {
+        "type": 3
+      },
       "seed": 26,
-      "version": 1,
+      "version": 2,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
       "frameId": null,
-      "boundElements": [{ "type": "text", "id": "slack-reply-text" }],
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "slack-reply-text"
+        }
+      ],
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1
+      "updated": 1773402927274,
+      "versionNonce": 1422706786,
+      "index": "aX",
+      "strokeStyle": "solid",
+      "roughness": 1
     },
     {
       "id": "slack-reply-text",
@@ -993,7 +1298,7 @@
       "strokeWidth": 1,
       "roundness": null,
       "seed": 27,
-      "version": 1,
+      "version": 2,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
@@ -1003,10 +1308,14 @@
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1,
+      "updated": 1773402927274,
       "originalText": "Slack Reply\nthreaded · typing",
       "autoResize": true,
-      "lineHeight": 1.2
+      "lineHeight": 1.2,
+      "versionNonce": 1099687614,
+      "index": "aY",
+      "strokeStyle": "solid",
+      "roughness": 1
     },
     {
       "id": "admin-box",
@@ -1019,18 +1328,29 @@
       "backgroundColor": "#ebfbee",
       "fillStyle": "solid",
       "strokeWidth": 2,
-      "roundness": { "type": 3 },
+      "roundness": {
+        "type": 3
+      },
       "seed": 28,
-      "version": 1,
+      "version": 2,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
       "frameId": null,
-      "boundElements": [{ "type": "text", "id": "admin-text" }],
+      "boundElements": [
+        {
+          "type": "text",
+          "id": "admin-text"
+        }
+      ],
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1
+      "updated": 1773402927274,
+      "versionNonce": 1520004130,
+      "index": "aZ",
+      "strokeStyle": "solid",
+      "roughness": 1
     },
     {
       "id": "admin-text",
@@ -1050,7 +1370,7 @@
       "strokeWidth": 1,
       "roundness": null,
       "seed": 29,
-      "version": 1,
+      "version": 2,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
@@ -1060,10 +1380,14 @@
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1,
+      "updated": 1773402927274,
       "originalText": "Admin Panel\nUpstash Redis · live",
       "autoResize": true,
-      "lineHeight": 1.2
+      "lineHeight": 1.2,
+      "versionNonce": 1193041662,
+      "index": "aa",
+      "strokeStyle": "solid",
+      "roughness": 1
     },
     {
       "id": "title-text",
@@ -1083,7 +1407,7 @@
       "strokeWidth": 1,
       "roundness": null,
       "seed": 30,
-      "version": 1,
+      "version": 2,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
@@ -1092,16 +1416,21 @@
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1,
+      "updated": 1773402927274,
       "originalText": "Community Agent\nArchitecture",
       "autoResize": true,
-      "lineHeight": 1.2
+      "lineHeight": 1.2,
+      "versionNonce": 245077986,
+      "index": "ab",
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "containerId": null
     },
     {
       "id": "subtitle-text",
       "type": "text",
-      "x": 80,
-      "y": 100,
+      "x": 76.046875,
+      "y": 101.69140625,
       "width": 220,
       "height": 50,
       "text": "Next.js 16 · AI SDK 6\nChat SDK · Vercel Workflow",
@@ -1115,7 +1444,7 @@
       "strokeWidth": 1,
       "roundness": null,
       "seed": 31,
-      "version": 1,
+      "version": 4,
       "opacity": 100,
       "angle": 0,
       "groupIds": [],
@@ -1124,10 +1453,15 @@
       "isDeleted": false,
       "link": null,
       "locked": false,
-      "updated": 1,
+      "updated": 1773402932742,
       "originalText": "Next.js 16 · AI SDK 6\nChat SDK · Vercel Workflow",
       "autoResize": true,
-      "lineHeight": 1.2
+      "lineHeight": 1.2,
+      "versionNonce": 196018430,
+      "index": "ac",
+      "strokeStyle": "solid",
+      "roughness": 1,
+      "containerId": null
     }
   ],
   "appState": {
