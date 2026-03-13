@@ -99,59 +99,79 @@ export function AnalyticsChart({
       </CardHeader>
       <CardContent>
         {hasData ? (
-          <ResponsiveContainer height={240} width="100%">
-            <AreaChart
-              data={data}
-              margin={{ top: 4, right: 4, bottom: 0, left: -20 }}
-            >
-              <defs>
-                {Object.entries(COLORS).map(([key, color]) => (
-                  <linearGradient
-                    id={`grad-${key}`}
-                    key={key}
-                    x1="0"
-                    x2="0"
-                    y1="0"
-                    y2="1"
-                  >
-                    <stop offset="0%" stopColor={color} stopOpacity={0.4} />
-                    <stop offset="100%" stopColor={color} stopOpacity={0.05} />
-                  </linearGradient>
-                ))}
-              </defs>
-              <CartesianGrid
-                className="stroke-border"
-                strokeDasharray="3 3"
-                vertical={false}
-              />
-              <XAxis
-                axisLine={false}
-                className="fill-muted-foreground"
-                dataKey="date"
-                tick={{ fontSize: 11 }}
-                tickLine={false}
-              />
-              <YAxis
-                allowDecimals={false}
-                axisLine={false}
-                className="fill-muted-foreground"
-                tick={{ fontSize: 11 }}
-                tickLine={false}
-              />
-              <Tooltip content={<CustomTooltip />} />
-              {STACK_ORDER.map((key) => (
-                <Area
-                  dataKey={key}
-                  fill={`url(#grad-${key})`}
-                  key={key}
-                  stackId="actions"
-                  stroke={COLORS[key]}
-                  strokeWidth={1.5}
-                  type="monotone"
+          <div>
+            <ResponsiveContainer height={240} width="100%">
+              <AreaChart
+                data={data}
+                margin={{ top: 4, right: 4, bottom: 0, left: -20 }}
+              >
+                <defs>
+                  {Object.entries(COLORS).map(([key, color]) => (
+                    <linearGradient
+                      id={`grad-${key}`}
+                      key={key}
+                      x1="0"
+                      x2="0"
+                      y1="0"
+                      y2="1"
+                    >
+                      <stop offset="0%" stopColor={color} stopOpacity={0.4} />
+                      <stop
+                        offset="100%"
+                        stopColor={color}
+                        stopOpacity={0.05}
+                      />
+                    </linearGradient>
+                  ))}
+                </defs>
+                <CartesianGrid
+                  className="stroke-border"
+                  strokeDasharray="3 3"
+                  vertical={false}
                 />
+                <XAxis
+                  axisLine={false}
+                  className="fill-muted-foreground"
+                  dataKey="date"
+                  tick={{ fontSize: 11 }}
+                  tickLine={false}
+                />
+                <YAxis
+                  allowDecimals={false}
+                  axisLine={false}
+                  className="fill-muted-foreground"
+                  tick={{ fontSize: 11 }}
+                  tickLine={false}
+                />
+                <Tooltip content={<CustomTooltip />} />
+                {STACK_ORDER.map((key) => (
+                  <Area
+                    dataKey={key}
+                    fill={`url(#grad-${key})`}
+                    key={key}
+                    stackId="actions"
+                    stroke={COLORS[key]}
+                    strokeWidth={1.5}
+                    type="monotone"
+                  />
+                ))}
+              </AreaChart>
+            </ResponsiveContainer>
+            <div className="mt-3 flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
+              {STACK_ORDER.toReversed().map((key) => (
+                <div
+                  className="flex items-center gap-1.5 text-muted-foreground text-xs"
+                  key={key}
+                >
+                  <span
+                    className="inline-block h-2.5 w-2.5 rounded-[3px]"
+                    style={{ backgroundColor: COLORS[key] }}
+                  />
+                  {LABELS[key]}
+                </div>
               ))}
-            </AreaChart>
-          </ResponsiveContainer>
+            </div>
+          </div>
         ) : (
           <div className="flex flex-col items-center justify-center py-8 text-center">
             <TrendingUp className="h-8 w-8 text-muted-foreground/50" />
