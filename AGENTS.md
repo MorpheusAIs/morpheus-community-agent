@@ -1,3 +1,11 @@
+<!-- BEGIN:nextjs-agent-rules -->
+
+# Next.js: ALWAYS read docs before coding
+
+Before any Next.js work, find and read the relevant doc in `node_modules/next/dist/docs/`. Your training data is outdated — the docs are the source of truth.
+
+<!-- END:nextjs-agent-rules -->
+
 # Ultracite Code Standards
 
 This project uses **Ultracite**, a zero-config preset that enforces strict code quality standards through automated formatting and linting.
@@ -94,9 +102,6 @@ Write code that is **accessible, performant, type-safe, and maintainable**. Focu
 
 **React 19+:**
 - Use ref as a prop instead of `React.forwardRef`
-
-**Solid/Svelte/Vue/Qwik:**
-- Use `class` and `for` attributes (not `className` or `htmlFor`)
 
 ---
 
