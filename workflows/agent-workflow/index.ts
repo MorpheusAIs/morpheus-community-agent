@@ -56,10 +56,7 @@ export async function workflowAgent(input: AgentInput): Promise<AgentResult> {
       : "";
 
     if (input.slack) {
-      await stepSaveStatusContext(
-        input.slack.channelId,
-        input.slack.threadTs
-      );
+      await stepSaveStatusContext(input.slack.channelId, input.slack.threadTs);
     }
 
     const agent = new DurableAgent({

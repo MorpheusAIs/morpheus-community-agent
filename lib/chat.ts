@@ -109,7 +109,7 @@ chat.onNewMention(async (thread, message) => {
 
 chat.onSubscribedMessage(handleMessage);
 
-chat.onMemberJoinedChannel(async (event) => {
+chat.onMemberJoinedChannel((event) => {
   handleMemberJoined({ user: event.userId, channel: event.channelId }).catch(
     (err) => logger.error("Welcome handler failed", { error: String(err) })
   );

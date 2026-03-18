@@ -491,10 +491,7 @@ export async function clearStatusContext(
   }
   try {
     const current = await getActiveStatusContext();
-    if (
-      current?.channelId === channelId &&
-      current?.threadTs === threadTs
-    ) {
+    if (current?.channelId === channelId && current?.threadTs === threadTs) {
       await client.del(ACTIVE_STATUS_KEY);
     }
   } catch {
