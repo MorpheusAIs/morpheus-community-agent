@@ -6,10 +6,12 @@ import { config } from "@/lib/config";
 import { createLogger } from "@/lib/logger";
 import type { AgentInput, AgentResult } from "@/lib/types";
 import {
+  stepAddReaction,
   stepEndStream,
   stepGetPermalink,
   stepLogAction,
   stepPostToSlack,
+  stepRemoveReaction,
   stepResolveChannelName,
   stepSaveStatusContext,
   stepSaveUserMessage,
@@ -224,6 +226,19 @@ export async function workflowAgent(input: AgentInput): Promise<AgentResult> {
         threadKey
       );
     }
+  }
+
+  if (input.slack) {
+    await stepRemoveReaction(
+      input.slack.channelId,
+      input.slack.threadTs,
+      "eyes"
+    );
+    await stepAddReaction(
+      input.slack.channelId,
+      input.slack.threadTs,
+      success ? "white_check_mark" : "x"
+    );
   }
 
   if (streamThreadId) {

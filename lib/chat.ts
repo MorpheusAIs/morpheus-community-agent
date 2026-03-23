@@ -3,6 +3,7 @@ import { createRedisState } from "@chat-adapter/state-redis";
 import { Chat } from "chat";
 import { start } from "workflow/api";
 import { createLogger } from "@/lib/logger";
+import { getSlackClient } from "@/lib/slack";
 import { handleMemberJoined } from "@/lib/welcome";
 import { workflowAgent } from "@/workflows/agent-workflow";
 
@@ -53,8 +54,6 @@ async function handleMessage(
   },
   message: { text?: string } | undefined
 ): Promise<void> {
-  await setThinkingStatus(thread.id);
-
   const threadInfo = parseThreadId(thread.id);
   if (!threadInfo) {
     await thread.post("Could not parse thread information.");
@@ -64,6 +63,17 @@ async function handleMessage(
   if (!message?.text) {
     await thread.post("Please provide a message for me to process.");
     return;
+  }
+
+  await setThinkingStatus(thread.id);
+  try {
+    await getSlackClient().reactions.add({
+      channel: threadInfo.channelId,
+      timestamp: threadInfo.threadTs,
+      name: "eyes",
+    });
+  } catch {
+    /* noop — reaction may already exist */
   }
 
   let history: Array<{ role: "user" | "assistant"; content: string }> = [];
