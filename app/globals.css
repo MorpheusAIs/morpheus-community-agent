@@ -221,3 +221,12 @@
 .animate-number-roll {
   animation: number-roll 300ms ease-out;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}
