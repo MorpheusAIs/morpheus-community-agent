@@ -1,6 +1,7 @@
-import { createOpenAI } from '@ai-sdk/openai';
+import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
 
-export const morpheus = createOpenAI({
+export const morpheus = createOpenAICompatible({
+  name: 'morpheus',
   baseURL: 'https://api.mor.org/api/v1',
   apiKey: process.env.MORPHEUS_API_KEY,
 });
