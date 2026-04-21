@@ -66,6 +66,7 @@ export function SignInButton() {
   }
 
   async function handleSlackSignIn() {
+    setLoading(true);
     setError(null);
     try {
       const result = await authClient.signIn.social({
@@ -77,9 +78,11 @@ export function SignInButton() {
           result.error.message ||
             "Failed to sign in with Slack. Check that Slack is configured correctly.",
         );
+        setLoading(false);
       }
     } catch {
       setError("Failed to start Slack sign-in.");
+      setLoading(false);
     }
   }
 
@@ -90,9 +93,18 @@ export function SignInButton() {
           {error}
         </p>
       )}
-      <Button className="w-full" onClick={handleSlackSignIn}>
-        <MessageCircle className="mr-2 h-4 w-4" />
-        Sign in with Slack
+      <Button className="w-full" disabled={loading} onClick={handleSlackSignIn}>
+        {loading ? (
+          <>
+            <span className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-background/30 border-t-background" />
+            Redirecting…
+          </>
+        ) : (
+          <>
+            <MessageCircle className="mr-2 h-4 w-4" />
+            Sign in with Slack
+          </>
+        )}
       </Button>
       {isDev && (
         <Button

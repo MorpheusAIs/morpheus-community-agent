@@ -176,7 +176,30 @@ vercel
 
 After deploying, go to your Slack app → **Event Subscriptions** → set the Request URL to `https://<your-production-domain>/api/slack` and verify it shows a green checkmark.
 
-> **Note:** Vercel Deployment Protection may block Slack webhooks and OAuth callbacks. If the bot or auth isn't working, check your protection settings.
+### Deployment Protection bypass
+
+Vercel Deployment Protection blocks unauthenticated requests—including Slack webhooks and OAuth callbacks. If you have [Deployment Protection](https://vercel.com/docs/security/deployment-protection) enabled, you need to create a bypass secret so Slack can reach your API.
+
+1. Go to your Vercel project → **Settings** → **Deployment Protection**
+2. Under **Protection Bypass for Automation**, click **Generate Secret** (add a note like "Slack webhooks")
+3. Copy the generated secret
+4. Update your Slack app URLs to include the bypass as a query parameter:
+
+   **Event Subscriptions → Request URL:**
+
+   ```
+   https://<your-production-domain>/api/slack?x-vercel-protection-bypass=<secret>
+   ```
+
+   **OAuth & Permissions → Redirect URL:**
+
+   ```
+   https://<your-production-domain>/api/auth/callback/slack?x-vercel-protection-bypass=<secret>
+   ```
+
+Slack can't send custom headers, so the query parameter method is required. The secret is included on every request Slack sends to your app.
+
+> **Tip:** If you only enable Deployment Protection on **Preview** deployments (not Production), you can skip this step—Slack webhooks pointing at your production domain will work without a bypass.
 
 ## Testing the bot
 
