@@ -8,9 +8,9 @@ export const morpheus = createOpenAI({
 export const MODELS = [
   { id: "glm-5", description: "Default flagship model" },
   { id: "kimi-k2.5", description: "Long-context reasoning model" },
-  { id: "minimax-m2.5", description: "Multimodal reasoning model" },
+  { id: "MiniMax-M2.5", description: "Multimodal reasoning model" },
   { id: "glm-4.7-flash", description: "Fast reasoning model with 200K context" },
-  { id: "gemma-4-26b-a4b", description: "Efficient reasoning and vision model with 256K context" },
+  { id: "Gemma-4-26b-a4b", description: "Efficient reasoning and vision model with 256K context" },
 ] as const;
 
 export type ModelId = (typeof MODELS)[number]["id"];
